@@ -324,7 +324,7 @@ public class MainActivity extends BasePermissionAppCompatActivity {
                 There have been major changes since v6.3.0 fix1, \
                 and it's very important to know them all if you want your projects to still work.
                 
-                You can view all changes whenever you want at the About Sketchware Pro screen.""");
+                You can view all changes whenever you want at the About Sketchware GG screen.""");
 
         bottomSheetDialog.setPositiveButton("View changes", (dialog, which) -> {
             ConfigActivity.setSetting(ConfigActivity.SETTING_CRITICAL_UPDATE_REMINDER, true);
