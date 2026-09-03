@@ -253,7 +253,7 @@ public class uq {
             "PF",
             "PHP",
             "PONY",
-            "POWER" + "SHELL",  // split to avoid false-positive antivirus rules; value unchanged
+            "POWERSHELL",
             "PROCESSING",
             "PROFILE",
             "PROLOG",

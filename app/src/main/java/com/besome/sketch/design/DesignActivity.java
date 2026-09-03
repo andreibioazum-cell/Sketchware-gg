@@ -341,15 +341,15 @@ public class DesignActivity extends BaseAppCompatActivity implements View.OnClic
     }
 
     /**
-     * Opens the built APK so the user can open it manually from a file manager.
-     * The REQUEST_INSTALL_PACKAGES permission and any root-based installation
-     * were removed on purpose to keep antivirus software from flagging the app.
+     * Launches the system package installer for the built APK.
+     * On Android 8.0+ the user has to allow "Install unknown apps" for
+     * Sketchware once; the system installer dialog takes care of that.
      */
     private void installBuiltApk() {
         try {
             requestPackageInstallerInstall();
         } catch (Exception e) {
-            SketchwareUtil.toastError("Couldn't open the built APK. Install it manually from a file manager: " + q.finalToInstallApkPath, Toast.LENGTH_LONG);
+            SketchwareUtil.toastError("Couldn't start the package installer. The built APK is located at: " + q.finalToInstallApkPath, Toast.LENGTH_LONG);
             LogUtil.e("DesignActivity", "Failed to open built APK: " + e.getMessage());
         }
     }
