@@ -29,7 +29,6 @@ import com.android.sdklib.build.ApkBuilder;
 import com.android.sdklib.build.ApkCreationException;
 import com.android.sdklib.build.DuplicateFileException;
 import com.android.sdklib.build.SealedApkException;
-import com.github.megatronking.stringfog.plugin.StringFogInjector;
 import com.iyxan23.zipalignjava.InvalidZipException;
 import com.iyxan23.zipalignjava.ZipAlign;
 
@@ -970,17 +969,6 @@ public class ProjectBuilder {
         }
 
         LogUtil.d(TAG, "ProGuard took " + (System.currentTimeMillis() - savedTimeMillis) + " ms");
-    }
-
-    public void runStringfog() {
-        try {
-            File mappingFile = new File(yq.binDirectoryPath, "stringFogMapping.txt");
-            File compiledClassesDir = new File(yq.compiledClassesPath);
-            StringFogInjector.processDirectory(compiledClassesDir, mappingFile);
-            KB.a(context, "stringfog/stringfog.zip", yq.compiledClassesPath);
-        } catch (Exception e) {
-            LogUtil.e("StringFog", "Failed to run StringFog", e);
-        }
     }
 
     public void runZipalign(String inPath, String outPath) throws By {

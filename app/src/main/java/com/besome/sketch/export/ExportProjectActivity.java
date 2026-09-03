@@ -45,7 +45,6 @@ import kellinwood.security.zipsigner.optional.CustomKeySigner;
 import kellinwood.security.zipsigner.optional.LoadKeystoreException;
 import mod.hey.studios.compiler.kotlin.KotlinCompilerBridge;
 import mod.hey.studios.project.proguard.ProguardHandler;
-import mod.hey.studios.project.stringfog.StringfogHandler;
 import mod.hey.studios.util.Helper;
 import mod.jbk.build.BuildProgressReceiver;
 import mod.jbk.build.BuiltInLibraries;
@@ -559,14 +558,6 @@ public class ExportProjectActivity extends BaseAppCompatActivity {
 
                 publishProgress("Java is compiling...");
                 builder.compileJavaCode();
-                if (canceled) {
-                    cancel(true);
-                    return;
-                }
-
-                /* Encrypt Strings in classes if enabled */
-                StringfogHandler stringfogHandler = new StringfogHandler(project_metadata.sc_id);
-                stringfogHandler.start(this, builder);
                 if (canceled) {
                     cancel(true);
                     return;

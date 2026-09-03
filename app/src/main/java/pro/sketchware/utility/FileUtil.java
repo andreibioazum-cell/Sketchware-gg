@@ -1,10 +1,8 @@
 package pro.sketchware.utility;
 
-import android.content.ActivityNotFoundException;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.Context;
-import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -20,11 +18,9 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.media.ExifInterface;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
-import android.provider.Settings;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -804,31 +800,6 @@ public class FileUtil {
             entry = input.getNextEntry();
         }
         input.close();
-    }
-
-    /**
-     * Asks the user to grant the current app {@link android.Manifest.permission#MANAGE_EXTERNAL_STORAGE}.
-     * Will silently ignore cases where a screen to manage that permission doesn't exist, except on
-     * devices with an API level of 29 or lower.
-     *
-     * @throws AssertionError Thrown if the device's API level is 29 or lower
-     */
-    public static void requestAllFilesAccessPermission(Context context) {
-        if (Build.VERSION.SDK_INT > 29) {
-            if (!Environment.isExternalStorageManager()) {
-                Intent intent = new Intent();
-                intent.setAction(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
-                intent.setData(Uri.parse("package:" + context.getPackageName()));
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                try {
-                    context.startActivity(intent);
-                } catch (ActivityNotFoundException e) {
-                    Log.e("FileUtil", "Activity to manage apps' all files access permission not found!");
-                }
-            }
-        } else {
-            throw new AssertionError("Not on an API level 30 or higher device!");
-        }
     }
 
     /**

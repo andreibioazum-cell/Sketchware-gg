@@ -64,13 +64,10 @@ import com.google.android.material.progressindicator.LinearProgressIndicator;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.crashlytics.FirebaseCrashlytics;
-import com.topjohnwu.superuser.Shell;
 
 import java.io.File;
 import java.lang.ref.WeakReference;
 import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -102,12 +99,9 @@ import mod.hey.studios.compiler.kotlin.KotlinCompilerBridge;
 import mod.hey.studios.project.custom_blocks.CustomBlocksDialog;
 import mod.hey.studios.project.proguard.ManageProguardActivity;
 import mod.hey.studios.project.proguard.ProguardHandler;
-import mod.hey.studios.project.stringfog.ManageStringFogFragment;
-import mod.hey.studios.project.stringfog.StringfogHandler;
 import mod.hey.studios.util.Helper;
 import mod.hey.studios.util.SystemLogPrinter;
 import mod.hilal.saif.activities.android_manifest.AndroidManifestInjection;
-import mod.hilal.saif.activities.tools.ConfigActivity;
 import mod.jbk.build.BuildProgressReceiver;
 import mod.jbk.build.BuiltInLibraries;
 import mod.jbk.diagnostic.CompileErrorSaver;
@@ -347,41 +341,16 @@ public class DesignActivity extends BaseAppCompatActivity implements View.OnClic
     }
 
     /**
-     * Opens the debug APK to install.
+     * Opens the built APK so the user can open it manually from a file manager.
+     * The REQUEST_INSTALL_PACKAGES permission and any root-based installation
+     * were removed on purpose to keep antivirus software from flagging the app.
      */
     private void installBuiltApk() {
-        if (!ConfigActivity.isSettingEnabled(ConfigActivity.SETTING_ROOT_AUTO_INSTALL_PROJECTS)) {
+        try {
             requestPackageInstallerInstall();
-        } else {
-            File apkUri = new File(q.finalToInstallApkPath);
-            long length = apkUri.length();
-            Shell.getShell(shell -> {
-                if (shell.isRoot()) {
-                    List<String> stdout = new LinkedList<>();
-                    List<String> stderr = new LinkedList<>();
-
-                    Shell.cmd("cat " + apkUri + " | pm install -S " + length).to(stdout, stderr).submit(result -> {
-                        if (result.isSuccess()) {
-                            SketchwareUtil.toast("Package installed successfully!");
-                            if (ConfigActivity.isSettingEnabled(ConfigActivity.SETTING_ROOT_AUTO_OPEN_AFTER_INSTALLING)) {
-                                Intent launcher = getPackageManager().getLaunchIntentForPackage(q.packageName);
-                                if (launcher != null) {
-                                    startActivity(launcher);
-                                } else {
-                                    SketchwareUtil.toastError("Couldn't launch project, either not installed or not with launcher activity.");
-                                }
-                            }
-                        } else {
-                            String sharedErrorMessage = "Failed to install package, result code: " + result.getCode() + ". ";
-                            SketchwareUtil.toastError(sharedErrorMessage + "Logs are available in /Internal storage/.sketchware/debug.txt", Toast.LENGTH_LONG);
-                            LogUtil.e("DesignActivity", sharedErrorMessage + "stdout: " + stdout + ", stderr: " + stderr);
-                        }
-                    });
-                } else {
-                    SketchwareUtil.toastError("No root access granted. Continuing using default package install prompt.");
-                    requestPackageInstallerInstall();
-                }
-            });
+        } catch (Exception e) {
+            SketchwareUtil.toastError("Couldn't open the built APK. Install it manually from a file manager: " + q.finalToInstallApkPath, Toast.LENGTH_LONG);
+            LogUtil.e("DesignActivity", "Failed to open built APK: " + e.getMessage());
         }
     }
 
@@ -949,17 +918,6 @@ public class DesignActivity extends BaseAppCompatActivity implements View.OnClic
     }
 
     /**
-     * Opens {@link ManageStringFogFragment}.
-     */
-    void toStringFogManager() {
-        var fragmentManager = getSupportFragmentManager();
-        if (fragmentManager.findFragmentByTag("stringFogFragment") == null) {
-            var bottomSheet = new ManageStringFogFragment();
-            bottomSheet.show(fragmentManager, "stringFogFragment");
-        }
-    }
-
-    /**
      * Opens {@link ManageFontActivity}.
      */
     void toFontManager() {
@@ -1156,12 +1114,6 @@ public class DesignActivity extends BaseAppCompatActivity implements View.OnClic
 
                 onProgress("Java is compiling...", 13);
                 builder.compileJavaCode();
-                if (canceled) {
-                    return;
-                }
-
-                StringfogHandler stringfogHandler = new StringfogHandler(sc_id);
-                stringfogHandler.start(this, builder);
                 if (canceled) {
                     return;
                 }
