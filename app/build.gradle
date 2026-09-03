@@ -24,6 +24,20 @@ android {
         buildConfigField("String", "SKETCHUB_API_KEY", "\"${System.getenv("SKETCHUB_API_KEY")}\"")
     }
 
+    // Unique release signing key generated for this fork.
+    // The app must NOT be signed with the public AOSP test key:
+    // antiviruses (e.g. Dr.Web Android.Siggen.Susp) flag builds signed
+    // with that well-known shared key as suspicious.
+    signingConfigs {
+        release {
+            storeFile = file("../release-signing.p12")
+            storeType = "PKCS12"
+            storePassword = "ptO83eluiDI0JFTJGJjIYyTLQLPX"
+            keyAlias = "sketchware-gg"
+            keyPassword = "ptO83eluiDI0JFTJGJjIYyTLQLPX"
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled = false
@@ -46,20 +60,6 @@ android {
 
     androidResources {
         additionalParameters.addAll("--stable-ids", "${rootDir}/public-stable-ids.txt")
-    }
-
-    // Unique release signing key generated for this fork.
-    // The app must NOT be signed with the public AOSP test key:
-    // antiviruses (e.g. Dr.Web Android.Siggen.Susp) flag builds signed
-    // with that well-known shared key as suspicious.
-    signingConfigs {
-        release {
-            storeFile = file("../release-signing.p12")
-            storeType = "PKCS12"
-            storePassword = "ptO83eluiDI0JFTJGJjIYyTLQLPX"
-            keyAlias = "sketchware-gg"
-            keyPassword = "ptO83eluiDI0JFTJGJjIYyTLQLPX"
-        }
     }
 
     buildFeatures {
