@@ -17,14 +17,12 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceDataStore;
 import androidx.preference.PreferenceFragmentCompat;
-import androidx.preference.SwitchPreferenceCompat;
 
 import com.besome.sketch.lib.base.BaseAppCompatActivity;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.JsonParseException;
-import com.topjohnwu.superuser.Shell;
 
 import java.io.File;
 import java.util.Arrays;
@@ -45,8 +43,6 @@ public class ConfigActivity extends BaseAppCompatActivity {
     public static final File SETTINGS_FILE = new File(FileUtil.getExternalStorageDir(), ".sketchware/data/settings.json");
     public static final String SETTING_ALWAYS_SHOW_BLOCKS = "always-show-blocks";
     public static final String SETTING_BACKUP_DIRECTORY = "backup-dir";
-    public static final String SETTING_ROOT_AUTO_INSTALL_PROJECTS = "root-auto-install-projects";
-    public static final String SETTING_ROOT_AUTO_OPEN_AFTER_INSTALLING = "root-auto-open-after-installing";
     public static final String SETTING_BACKUP_FILENAME = "backup-filename";
     public static final String SETTING_SHOW_BUILT_IN_BLOCKS = "built-in-blocks";
     public static final String SETTING_SHOW_EVERY_SINGLE_BLOCK = "show-every-single-block";
@@ -130,8 +126,6 @@ public class ConfigActivity extends BaseAppCompatActivity {
 
         List<String> keys = Arrays.asList(SETTING_ALWAYS_SHOW_BLOCKS,
                 SETTING_BACKUP_DIRECTORY,
-                SETTING_ROOT_AUTO_INSTALL_PROJECTS,
-                SETTING_ROOT_AUTO_OPEN_AFTER_INSTALLING,
                 SETTING_SHOW_BUILT_IN_BLOCKS,
                 SETTING_SHOW_EVERY_SINGLE_BLOCK,
                 SETTING_USE_NEW_VERSION_CONTROL,
@@ -148,11 +142,10 @@ public class ConfigActivity extends BaseAppCompatActivity {
     public static Object getDefaultValue(String key) {
         return switch (key) {
             case SETTING_ALWAYS_SHOW_BLOCKS,
-                 SETTING_ROOT_AUTO_INSTALL_PROJECTS, SETTING_SHOW_BUILT_IN_BLOCKS,
+                 SETTING_SHOW_BUILT_IN_BLOCKS,
                  SETTING_SHOW_EVERY_SINGLE_BLOCK, SETTING_USE_NEW_VERSION_CONTROL,
                  SETTING_USE_ASD_HIGHLIGHTER -> false;
             case SETTING_BACKUP_DIRECTORY -> "/.sketchware/backups/";
-            case SETTING_ROOT_AUTO_OPEN_AFTER_INSTALLING -> true;
             case SETTING_BLOCKMANAGER_DIRECTORY_PALETTE_FILE_PATH ->
                     "/.sketchware/resources/block/My Block/palette.json";
             case SETTING_BLOCKMANAGER_DIRECTORY_BLOCK_FILE_PATH ->
@@ -241,20 +234,6 @@ public class ConfigActivity extends BaseAppCompatActivity {
                     binding.inputText.requestFocus();
                 });
                 dialog.show();
-                return true;
-            });
-
-            SwitchPreferenceCompat installWithRoot = findPreference("root-auto-install-projects");
-            assert installWithRoot != null;
-            installWithRoot.setOnPreferenceClickListener(preference -> {
-                if (installWithRoot.isChecked()) {
-                    Shell.getShell(shell -> {
-                        if (!shell.isRoot()) {
-                            Snackbar.make(snackbarView, "Couldn't acquire root access", BaseTransientBottomBar.LENGTH_SHORT).show();
-                            installWithRoot.setChecked(false);
-                        }
-                    });
-                }
                 return true;
             });
 

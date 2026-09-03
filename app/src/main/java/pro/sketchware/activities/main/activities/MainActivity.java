@@ -3,16 +3,12 @@ package pro.sketchware.activities.main.activities;
 import pro.sketchware.R;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.Settings;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
@@ -31,12 +27,8 @@ import androidx.fragment.app.FragmentTransaction;
 import com.besome.sketch.lib.base.BasePermissionAppCompatActivity;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.snackbar.Snackbar;
-import com.google.firebase.FirebaseApp;
 import com.google.firebase.analytics.FirebaseAnalytics;
-import com.google.firebase.messaging.FirebaseMessaging;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.Objects;
 
 import a.a.a.DB;
@@ -53,7 +45,6 @@ import pro.sketchware.activities.main.fragments.projects_store.ProjectsStoreFrag
 import pro.sketchware.databinding.MainBinding;
 import pro.sketchware.lib.base.BottomSheetDialogView;
 import pro.sketchware.utility.DataResetter;
-import pro.sketchware.utility.FileUtil;
 import pro.sketchware.utility.SketchwareUtil;
 import pro.sketchware.utility.UI;
 
@@ -77,20 +68,10 @@ public class MainActivity extends BasePermissionAppCompatActivity {
     @IdRes
     private int currentNavItemId = R.id.item_projects;
 
-    private static boolean isFirebaseInitialized(Context context) {
-        try {
-            return FirebaseApp.getApps(context) != null && !FirebaseApp.getApps(context).isEmpty();
-        } catch (Exception e) {
-            return false;
-        }
-    }
-
     @Override
     // onRequestPermissionsResult but for Storage access only, and only when granted
     public void g(int i) {
         if (i == 9501) {
-            allFilesAccessCheck();
-
             if (activeFragment instanceof ProjectsFragment) {
                 projectsFragment.refreshProjectsList();
             }
@@ -206,9 +187,6 @@ public class MainActivity extends BasePermissionAppCompatActivity {
         boolean hasStorageAccess = isStoragePermissionGranted();
         if (!hasStorageAccess) {
             showNoticeNeedStorageAccess();
-        }
-        if (hasStorageAccess) {
-            allFilesAccessCheck();
         }
 
         if (Intent.ACTION_VIEW.equals(getIntent().getAction())) {
@@ -371,9 +349,6 @@ public class MainActivity extends BasePermissionAppCompatActivity {
     public void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         drawerToggle.syncState();
-        if (isFirebaseInitialized(this)) {
-            FirebaseMessaging.getInstance().subscribeToTopic("all");
-        }
     }
 
     @Override
@@ -391,35 +366,6 @@ public class MainActivity extends BasePermissionAppCompatActivity {
         bundle.putString(FirebaseAnalytics.Param.SCREEN_NAME, "MainActivity");
         bundle.putString(FirebaseAnalytics.Param.SCREEN_CLASS, "MainActivity");
         mAnalytics.logEvent(FirebaseAnalytics.Event.SCREEN_VIEW, bundle);
-    }
-
-    private void allFilesAccessCheck() {
-        if (Build.VERSION.SDK_INT > 29) {
-            File optOutFile = new File(getFilesDir(), ".skip_all_files_access_notice");
-            boolean granted = Environment.isExternalStorageManager();
-
-            if (!optOutFile.exists() && !granted) {
-                MaterialAlertDialogBuilder dialog = new MaterialAlertDialogBuilder(this);
-                dialog.setIcon(R.drawable.ic_expire_48dp);
-                dialog.setTitle("Android 11 storage access");
-                dialog.setMessage("Starting with Android 11, Sketchware Pro needs a new permission to avoid " + "taking ages to build projects. Don't worry, we can't do more to storage than " + "with current granted permissions.");
-                dialog.setPositiveButton(Helper.getResString(R.string.common_word_settings), (v, which) -> {
-                    FileUtil.requestAllFilesAccessPermission(this);
-                    v.dismiss();
-                });
-                dialog.setNegativeButton("Skip", null);
-                dialog.setNeutralButton("Don't show anymore", (v, which) -> {
-                    try {
-                        if (!optOutFile.createNewFile())
-                            throw new IOException("Failed to create file " + optOutFile);
-                    } catch (IOException e) {
-                        Log.e("MainActivity", "Error while trying to create " + "\"Don't show Android 11 hint\" dialog file: " + e.getMessage(), e);
-                    }
-                    v.dismiss();
-                });
-                dialog.show();
-            }
-        }
     }
 
     private void showNoticeNeedStorageAccess() {

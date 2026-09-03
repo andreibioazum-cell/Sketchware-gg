@@ -12,7 +12,6 @@ coil = "2.7.0"
 coilSvg = "2.7.0"
 markwon = "4.6.2"
 coreSplashscreen = "1.2.0"
-libsu = "5.0.4"
 dependencyresolver = "05ec26af0b"
 #noinspection NewerVersionAvailable
 ecj = "3.26.0"
@@ -43,9 +42,6 @@ swiperefreshlayout = "1.2.0"
 viewpager = "1.1.0"
 woodstoxCore = "7.1.1"
 zipalignJava = "1.2.2"
-asm = "9.7"
-stringfog = "5.2.0"
-stringfogXor = "5.0.0"
 apksig = "9.3.1"
 conscrypt = "2.5.2"
 androidsvg = "1.4"
@@ -66,7 +62,6 @@ desugar_jdk_libs_nio = { module = "com.android.tools:desugar_jdk_libs_nio", vers
 firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }
 firebase-analytics = { module = "com.google.firebase:firebase-analytics" }
 firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics" }
-firebase-messaging = { module = "com.google.firebase:firebase-messaging" }
 
 flexbox = { module = "com.google.android.flexbox:flexbox", version.ref = "flexbox" }
 lottie = { module = "com.airbnb.android:lottie", version.ref = "lottie" }
@@ -87,7 +82,6 @@ glide = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
 insetter = { module = "dev.chrisbanes.insetter:insetter", version.ref = "insetter" }
 
 javaparser-symbol-solver = { module = "com.github.javaparser:javaparser-symbol-solver-core", version.ref = "javaparserSymbolSolver" }
-libsu = { module = "com.github.topjohnwu.libsu:core", version.ref = "libsu" }
 dependencyresolver = { module = "com.github.Cosmic-Ide:DependencyResolver", version.ref = "dependencyresolver" }
 filepicker = { module = "com.github.PranavPurwar:filepicker", version.ref = "filepicker" }
 
@@ -117,10 +111,6 @@ woodstox-core = { module = "com.fasterxml.woodstox:woodstox-core", version.ref =
 
 zipalign-java = { module = "com.github.Iyxan23:zipalign-java", version.ref = "zipalignJava" }
 
-asm = { module = "org.ow2.asm:asm", version.ref = "asm" }
-stringfog-core = { module = "com.github.megatronking.stringfog:core", version.ref = "stringfog" }
-stringfog-interface = { module = "com.github.megatronking.stringfog:interface", version.ref = "stringfogXor" }
-stringfog-xor = { module = "com.github.megatronking.stringfog:xor", version.ref = "stringfogXor" }
 apksig = { module = "com.android.tools.build:apksig", version.ref = "apksig" }
 conscrypt-android = { module = "org.conscrypt:conscrypt-android", version.ref = "conscrypt" }
 androidsvg = { module = "com.caverock:androidsvg-aar", version.ref = "androidsvg" }
@@ -136,4 +126,4 @@ bundletool = ["bundletool", "protobuf-java"]
 shrinker = ["r8", "proguard-core"]
 kotlin_compiler = ["kotlinc-for1-sketchware", "woodstox-core"]
 editor_and_lang = ["editor", "language-java", "language-textmate"]
-firebase = ["firebase-analytics", "firebase-crashlytics", "firebase-messaging"]
+firebase = ["firebase-analytics", "firebase-crashlytics"]

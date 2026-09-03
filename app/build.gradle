@@ -101,10 +101,6 @@ dependencies {
     implementation libs.conscrypt.android
     implementation libs.androidsvg
 
-    implementation libs.asm
-    implementation libs.stringfog.core
-    implementation libs.stringfog.interface
-    implementation libs.stringfog.xor
 
     implementation libs.gson
     implementation libs.scpkix.jdk15on
@@ -121,7 +117,6 @@ dependencies {
     implementation libs.dependencyresolver
     implementation libs.filepicker
 
-    implementation libs.libsu
     implementation libs.insetter
 
     implementation(libs.javaparser.symbol.solver) {

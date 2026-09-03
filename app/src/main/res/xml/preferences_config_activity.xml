@@ -26,18 +26,6 @@
 
     <SwitchPreferenceCompat
         app:iconSpaceReserved="false"
-        app:key="root-auto-install-projects"
-        app:summary="Automatically installs project APKs after building using root access."
-        app:title="Install projects with root access" />
-
-    <SwitchPreferenceCompat
-        app:iconSpaceReserved="false"
-        app:key="root-auto-open-after-installing"
-        app:summary="Opens projects automatically after auto-installation using root."
-        app:title="Launch projects after installing" />
-
-    <SwitchPreferenceCompat
-        app:iconSpaceReserved="false"
         app:key="use-new-version-control"
         app:summary="Enables custom version code and name for projects."
         app:title="Use new Version Control" />
