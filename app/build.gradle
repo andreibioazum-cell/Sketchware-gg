@@ -67,6 +67,18 @@ android {
         buildConfig = true
     }
 
+    lint {
+        // The project-wide `exclude group: "xmlpull"` / `"net.sf.kxml"` below strips
+        // XmlPullParser from every configuration - including the classpath Android Lint
+        // deserialises its project model with - so the lint vital check that
+        // assembleRelease triggers dies with
+        // "NoClassDefFoundError: org/xmlpull/v1/XmlPullParserException"
+        // ("Internal error: Unexpected lint invalid arguments").
+        // Those exclusions are required: the classes are already provided by the Android
+        // framework, so shipping them again breaks dexing. Skip the release lint check
+        // instead; `gradle lint` can still be run explicitly when it is wanted.
+        checkReleaseBuilds = false
+    }
 
     configurations.implementation {
         exclude group: 'javax.inject', module: 'javax.inject'

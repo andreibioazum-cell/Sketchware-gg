@@ -633,16 +633,16 @@ public class ExportProjectActivity extends BaseAppCompatActivity {
                     }
 
                     publishProgress("Aligning APK...");
-                    builder.runZipalign(builder.ProjectPaths.unsignedUnalignedApkPath, builder.ProjectPaths.unsignedAlignedApkPath);
+                    builder.runZipalign(builder.paths.unsignedUnalignedApkPath, builder.paths.unsignedAlignedApkPath);
                     if (canceled) {
                         cancel(true);
                         return;
                     }
 
                     publishProgress("Signing APK...");
-                    String outputLocation = getCorrectResultFilename(builder.ProjectPaths.releaseApkPath);
+                    String outputLocation = getCorrectResultFilename(builder.paths.releaseApkPath);
                     if (signWithTestkey) {
-                        TestkeySignBridge.signWithTestkey(builder.ProjectPaths.unsignedAlignedApkPath, outputLocation);
+                        TestkeySignBridge.signWithTestkey(builder.paths.unsignedAlignedApkPath, outputLocation);
                     } else if (isResultJarSigningEnabled()) {
                         Security.addProvider(new BouncyCastleProvider());
                         CustomKeySigner.signZip(
@@ -652,11 +652,11 @@ public class ExportProjectActivity extends BaseAppCompatActivity {
                                 signingAliasName,
                                 signingKeystorePassword,
                                 signingAlgorithm,
-                                builder.ProjectPaths.unsignedAlignedApkPath,
+                                builder.paths.unsignedAlignedApkPath,
                                 outputLocation
                         );
                     } else {
-                        FileUtil.copyFile(builder.ProjectPaths.unsignedAlignedApkPath, outputLocation);
+                        FileUtil.copyFile(builder.paths.unsignedAlignedApkPath, outputLocation);
                     }
                 }
             } catch (Throwable throwable) {
