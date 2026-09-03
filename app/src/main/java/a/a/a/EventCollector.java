@@ -14,7 +14,7 @@ import mod.hey.studios.project.ProjectSettings;
 import mod.hilal.saif.components.ComponentExtraCode;
 import mod.pranav.viewbinding.ViewBindingBuilder;
 
-public class Hx {
+public class EventCollector {
 
     private final ProjectFileBean projectFileBean;
     private final jq jq;
@@ -30,7 +30,7 @@ public class Hx {
     public String k = "";
     public String l = "";
 
-    public Hx(jq logicHolder, ProjectFileBean projectFileBean, eC eC) {
+    public EventCollector(jq logicHolder, ProjectFileBean projectFileBean, eC eC) {
         jq = logicHolder;
         this.projectFileBean = projectFileBean;
 
@@ -71,8 +71,8 @@ public class Hx {
         for (ComponentCallback value : callbackEvents) {
             String code = value.getCode();
             if (sb.length() > 0 && !code.isEmpty()) {
-                sb.append(Jx.EOL);
-                sb.append(Jx.EOL);
+                sb.append(ActivityCodeGenerator.EOL);
+                sb.append(ActivityCodeGenerator.EOL);
             }
             sb.append(code);
         }
@@ -127,7 +127,7 @@ public class Hx {
 
     public void addLifecycleEvent(String eventName, String viewType, String viewId) {
         if (!activityLifecycleEvents.containsKey(eventName)) {
-            activityLifecycleEvents.put(eventName, Lx.getDefaultActivityLifecycleCode(eventName, viewType, isViewBindingEnabled ? "binding." + ViewBindingBuilder.generateParameterFromId(viewId) : viewId));
+            activityLifecycleEvents.put(eventName, ComponentCodeGenerator.getDefaultActivityLifecycleCode(eventName, viewType, isViewBindingEnabled ? "binding." + ViewBindingBuilder.generateParameterFromId(viewId) : viewId));
         }
     }
 
@@ -135,7 +135,7 @@ public class Hx {
         for (EventBean eventBean : events) {
             ArrayList<BlockBean> eventLogicBlocks = logicBlocks.get(eventBean.targetId + "_" + eventBean.eventName);
             String eventLogic = (eventLogicBlocks == null || eventLogicBlocks.isEmpty()) ? "" :
-                    new Fx(projectFileBean.getActivityName(), jq, eventLogicBlocks, isViewBindingEnabled).a();
+                    new BlockExpressionParser(projectFileBean.getActivityName(), jq, eventLogicBlocks, isViewBindingEnabled).a();
 
             switch (eventBean.eventType) {
                 case EventBean.EVENT_TYPE_VIEW:
@@ -196,8 +196,8 @@ public class Hx {
         for (ActivityEvent value : activityEvents) {
             String code = value.getCode();
             if (sb.length() > 0 && !code.isEmpty()) {
-                sb.append(Jx.EOL);
-                sb.append(Jx.EOL);
+                sb.append(ActivityCodeGenerator.EOL);
+                sb.append(ActivityCodeGenerator.EOL);
             }
             sb.append(code);
         }
@@ -236,8 +236,8 @@ public class Hx {
         for (Event drawerViewEvent : drawerViewEvents) {
             String eventCodes = drawerViewEvent.generateEvent();
             if (sb.length() > 0 && !eventCodes.isEmpty()) {
-                sb.append(Jx.EOL);
-                sb.append(Jx.EOL);
+                sb.append(ActivityCodeGenerator.EOL);
+                sb.append(ActivityCodeGenerator.EOL);
             }
             sb.append(eventCodes);
         }
@@ -254,7 +254,7 @@ public class Hx {
     }
 
     /**
-     * @return {@link Hx#imports}
+     * @return {@link EventCollector#imports}
      */
     public ArrayList<String> getImports() {
         return imports;
@@ -274,8 +274,8 @@ public class Hx {
         for (Event authEvent : authEvents) {
             String event = authEvent.generateEvent();
             if (sb.length() > 0 && !event.isEmpty()) {
-                sb.append(Jx.EOL);
-                sb.append(Jx.EOL);
+                sb.append(ActivityCodeGenerator.EOL);
+                sb.append(ActivityCodeGenerator.EOL);
             }
             sb.append(event);
         }
@@ -287,8 +287,8 @@ public class Hx {
         for (Event value : viewEvents) {
             String event = value.generateEvent();
             if (sb.length() > 0 && !event.isEmpty()) {
-                sb.append(Jx.EOL);
-                sb.append(Jx.EOL);
+                sb.append(ActivityCodeGenerator.EOL);
+                sb.append(ActivityCodeGenerator.EOL);
             }
             sb.append(event);
         }
@@ -306,7 +306,7 @@ public class Hx {
         }
 
         private String getCode() {
-            return Lx.getEventCode(targetId, name, logic);
+            return ComponentCodeGenerator.getEventCode(targetId, name, logic);
         }
 
         private void setLogic(String logic) {
@@ -339,16 +339,16 @@ public class Hx {
         }
 
         private String getCode() {
-            return Lx.getOnActivityResultCode(componentId, componentName, onSuccessCode, onCancelledCode);
+            return ComponentCodeGenerator.getOnActivityResultCode(componentId, componentName, onSuccessCode, onCancelledCode);
         }
     }
 
     private static class Event {
-        private final Hx hx;
+        private final EventCollector hx;
         private final String id;
         private final ArrayList<ComponentEvents> listeners = new ArrayList<>();
 
-        private Event(Hx hx, String id, Gx classInfo, boolean isViewBindingEnabled) {
+        private Event(EventCollector hx, String id, Gx classInfo, boolean isViewBindingEnabled) {
             this.hx = hx;
             this.id = id;
 
@@ -387,8 +387,8 @@ public class Hx {
             for (ComponentEvents value : listeners) {
                 String event = value.generateEvent(id);
                 if (sb.length() > 0 && !event.isEmpty()) {
-                    sb.append(Jx.EOL);
-                    sb.append(Jx.EOL);
+                    sb.append(ActivityCodeGenerator.EOL);
+                    sb.append(ActivityCodeGenerator.EOL);
                 }
                 sb.append(event);
             }
@@ -439,12 +439,12 @@ public class Hx {
             for (ActivityEvent activityEvent : activityEvents) {
                 String code = activityEvent.getCode();
                 if (eventsCode.length() > 0 && !code.isEmpty()) {
-                    eventsCode.append(Jx.EOL);
-                    eventsCode.append(Jx.EOL);
+                    eventsCode.append(ActivityCodeGenerator.EOL);
+                    eventsCode.append(ActivityCodeGenerator.EOL);
                 }
                 eventsCode.append(code);
             }
-            return Lx.getListenerCode(listenerName, componentName, eventsCode.toString());
+            return ComponentCodeGenerator.getListenerCode(listenerName, componentName, eventsCode.toString());
         }
     }
 }

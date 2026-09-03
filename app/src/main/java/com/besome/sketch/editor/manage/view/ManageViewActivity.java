@@ -32,7 +32,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import a.a.a.By;
-import a.a.a.Fw;
+import a.a.a.ProjectFilesPage;
 import a.a.a.MA;
 import a.a.a.bB;
 import a.a.a.eC;
@@ -52,7 +52,7 @@ public class ManageViewActivity extends BaseAppCompatActivity implements OnClick
     private MaterialCardView actionButtonsContainer;
     private boolean selecting = false;
     private String isAppCompatEnabled = "N";
-    private Fw activitiesFragment;
+    private ProjectFilesPage activitiesFragment;
     private xw customViewsFragment;
     private ViewPager viewPager;
     private String sc_id;
@@ -145,13 +145,13 @@ public class ManageViewActivity extends BaseAppCompatActivity implements OnClick
         s.show();
     }
 
-    // signature mustn't be changed: used in La/a/a/Fw;->b(Lcom/besome/sketch/beans/ProjectFileBean;)V
+    // signature mustn't be changed: used in La/a/a/ProjectFilesPage;->b(Lcom/besome/sketch/beans/ProjectFileBean;)V
     public void b(String var1) {
         customViewsFragment.a(var1);
         customViewsFragment.g();
     }
 
-    // signature mustn't be changed: used in La/a/a/Fw;->b(Lcom/besome/sketch/beans/ProjectFileBean;)V, La/a/a/Fw;->f()V
+    // signature mustn't be changed: used in La/a/a/ProjectFilesPage;->b(Lcom/besome/sketch/beans/ProjectFileBean;)V, La/a/a/ProjectFilesPage;->f()V
     public void c(String var1) {
         customViewsFragment.b(var1);
         customViewsFragment.g();
@@ -388,7 +388,7 @@ public class ManageViewActivity extends BaseAppCompatActivity implements OnClick
             if (position != 0) {
                 customViewsFragment = (xw) var3;
             } else {
-                activitiesFragment = (Fw) var3;
+                activitiesFragment = (ProjectFilesPage) var3;
             }
 
             return var3;
@@ -397,7 +397,7 @@ public class ManageViewActivity extends BaseAppCompatActivity implements OnClick
         @Override
         @NonNull
         public Fragment getItem(int position) {
-            return position != 0 ? new xw() : new Fw();
+            return position != 0 ? new xw() : new ProjectFilesPage();
         }
     }
 }

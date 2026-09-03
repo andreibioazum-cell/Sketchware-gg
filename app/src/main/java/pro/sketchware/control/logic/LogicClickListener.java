@@ -27,7 +27,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.function.Function;
 
-import a.a.a.ZB;
+import a.a.a.VariableNameValidator;
 import a.a.a.bB;
 import a.a.a.eC;
 import a.a.a.jC;
@@ -104,7 +104,7 @@ public class LogicClickListener implements View.OnClickListener {
         VariableTypeValidator varTypeValidator = new VariableTypeValidator(getContext(), binding.typeLayout);
         binding.type.addTextChangedListener(varTypeValidator);
 
-        ZB validator = new ZB(getContext(), binding.nameLayout, uq.b, uq.a(), projectDataManager.a(projectFile));
+        VariableNameValidator validator = new VariableNameValidator(getContext(), binding.nameLayout, uq.b, uq.a(), projectDataManager.a(projectFile));
 
         dialog.setView(binding.getRoot());
         dialog.setPositiveButton(Helper.getResString(R.string.common_word_add), (v, which) -> {
@@ -224,7 +224,7 @@ public class LogicClickListener implements View.OnClickListener {
 
         AddCustomListBinding listBinding = AddCustomListBinding.inflate(logicEditor.getLayoutInflater());
 
-        ZB validator = new ZB(getContext(), listBinding.nameLayout, uq.b, uq.a(), projectDataManager.a(projectFile));
+        VariableNameValidator validator = new VariableNameValidator(getContext(), listBinding.nameLayout, uq.b, uq.a(), projectDataManager.a(projectFile));
 
         dialog.setView(listBinding.getRoot());
         dialog.setPositiveButton(Helper.getResString(R.string.common_word_add), (v, which) -> {

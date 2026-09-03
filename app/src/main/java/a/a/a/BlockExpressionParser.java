@@ -19,7 +19,7 @@ import mod.hey.studios.editor.manage.block.v2.BlockLoader;
 import mod.hey.studios.moreblock.ReturnMoreblockManager;
 import mod.pranav.viewbinding.ViewBindingBuilder;
 
-public class Fx {
+public class BlockExpressionParser {
 
     private static final Pattern PARAM_PATTERN = Pattern.compile("%m(?!\\.[\\w]+)");
     public final boolean isViewBindingEnabled;
@@ -39,7 +39,7 @@ public class Fx {
     public Map<String, BlockBean> blockMap;
     private final boolean isActivity;
 
-    public Fx(String activityName, jq buildConfig, ArrayList<BlockBean> eventBlocks, boolean isViewBindingEnabled) {
+    public BlockExpressionParser(String activityName, jq buildConfig, ArrayList<BlockBean> eventBlocks, boolean isViewBindingEnabled) {
         this.activityName = activityName;
 
         isActivity = !(activityName.endsWith("DialogFragmentActivity") || activityName.endsWith("BottomDialogFragmentActivity") || activityName.endsWith("FragmentActivity"));
@@ -152,7 +152,7 @@ public class Fx {
             return "\"" + escapeString(param) + "\"";
         } else if (type == 1) {
             /**
-             * Ideally, a.a.a.Fx#a(BlockBean, String) should be responsible for parsing the input properly.
+             * Ideally, a.a.a.BlockExpressionParser#a(BlockBean, String) should be responsible for parsing the input properly.
              * However, upon decompiling this class, it seems to completely ignore this case.
              * This is the solution for now to prevent errors during code generation.
              */
@@ -773,7 +773,7 @@ public class Fx {
                 if (isViewBindingEnabled && paramAdapter.startsWith("binding.")) {
                     paramAdapter = paramAdapter.substring("binding.".length());
                 }
-                opcode = String.format("%s.setAdapter(new %s(%s));", param, Lx.a(paramAdapter, isViewBindingEnabled), params.get(1));
+                opcode = String.format("%s.setAdapter(new %s(%s));", param, ComponentCodeGenerator.a(paramAdapter, isViewBindingEnabled), params.get(1));
                 break;
             case "listRefresh":
                 opcode = String.format("((BaseAdapter)%s.getAdapter()).notifyDataSetChanged();", params.get(0));

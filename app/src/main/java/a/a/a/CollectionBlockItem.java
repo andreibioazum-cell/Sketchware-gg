@@ -13,12 +13,12 @@ import java.util.ArrayList;
 
 import pro.sketchware.utility.ThemeUtils;
 
-public class Us extends Rs {
+public class CollectionBlockItem extends Rs {
 
     public ArrayList<BlockBean> blocks;
     public TextView tvSpec;
 
-    public Us(Context context, String var2, String var3, String var4, String var5, ArrayList<BlockBean> blocks) {
+    public CollectionBlockItem(Context context, String var2, String var3, String var4, String var5, ArrayList<BlockBean> blocks) {
         super(context, -1, var5, var2, var3, var4);
         this.blocks = blocks;
         super.oa = 2;

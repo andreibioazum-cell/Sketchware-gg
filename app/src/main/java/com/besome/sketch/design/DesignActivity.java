@@ -73,7 +73,7 @@ import java.util.concurrent.Executors;
 
 import a.a.a.DB;
 import a.a.a.GB;
-import a.a.a.Ox;
+import a.a.a.LayoutXmlGenerator;
 import a.a.a.ProjectBuilder;
 import a.a.a.ViewEditorFragment;
 import a.a.a.bB;
@@ -88,7 +88,7 @@ import a.a.a.mB;
 import a.a.a.rs;
 import a.a.a.wq;
 import a.a.a.yB;
-import a.a.a.yq;
+import a.a.a.ProjectPaths;
 import a.a.a.zy;
 import dev.chrisbanes.insetter.Insetter;
 import mod.agus.jcoderz.editor.manage.permission.ManagePermissionActivity;
@@ -130,7 +130,7 @@ public class DesignActivity extends BaseAppCompatActivity implements View.OnClic
     private CustomViewPager viewPager;
     private CoordinatorLayout coordinatorLayout;
     private DrawerLayout drawer;
-    private yq q;
+    private ProjectPaths q;
     private DB r;
     private DB t;
     private Menu bottomMenu;
@@ -341,15 +341,15 @@ public class DesignActivity extends BaseAppCompatActivity implements View.OnClic
     }
 
     /**
-     * Opens the built APK so the user can open it manually from a file manager.
-     * The REQUEST_INSTALL_PACKAGES permission and any root-based installation
-     * were removed on purpose to keep antivirus software from flagging the app.
+     * Launches the system package installer for the built APK.
+     * On Android 8.0+ the user has to allow "Install unknown apps" for
+     * Sketchware once; the system installer dialog takes care of that.
      */
     private void installBuiltApk() {
         try {
             requestPackageInstallerInstall();
         } catch (Exception e) {
-            SketchwareUtil.toastError("Couldn't open the built APK. Install it manually from a file manager: " + q.finalToInstallApkPath, Toast.LENGTH_LONG);
+            SketchwareUtil.toastError("Couldn't start the package installer. The built APK is located at: " + q.finalToInstallApkPath, Toast.LENGTH_LONG);
             LogUtil.e("DesignActivity", "Failed to open built APK: " + e.getMessage());
         }
     }
@@ -613,7 +613,7 @@ public class DesignActivity extends BaseAppCompatActivity implements View.OnClic
 
         HashMap<String, Object> projectInfo = lC.b(sc_id);
         getSupportActionBar().setTitle(yB.c(projectInfo, "my_ws_name"));
-        q = new yq(getApplicationContext(), wq.d(sc_id), projectInfo);
+        q = new ProjectPaths(getApplicationContext(), wq.d(sc_id), projectInfo);
 
         try {
             ProjectLoader projectLoader = new ProjectLoader(this, savedInstanceState);
@@ -769,7 +769,7 @@ public class DesignActivity extends BaseAppCompatActivity implements View.OnClic
         k();
         new Thread(() -> {
             var filename = Helper.getText(fileName);
-            var code = new yq(getApplicationContext(), sc_id).getFileSrc(filename, jC.b(sc_id), jC.a(sc_id), jC.c(sc_id));
+            var code = new ProjectPaths(getApplicationContext(), sc_id).getFileSrc(filename, jC.b(sc_id), jC.a(sc_id), jC.c(sc_id));
             runOnUiThread(() -> {
                 if (isFinishing()) return;
                 h();
@@ -819,8 +819,8 @@ public class DesignActivity extends BaseAppCompatActivity implements View.OnClic
         k();
         new Thread(() -> {
             String filename = Helper.getText(fileName);
-            // var yq = new yq(getApplicationContext(), sc_id);
-            var xmlGenerator = new Ox(q.N, projectFile);
+            // var ProjectPaths = new ProjectPaths(getApplicationContext(), sc_id);
+            var xmlGenerator = new LayoutXmlGenerator(q.N, projectFile);
             var projectDataManager = jC.a(sc_id);
             var viewBeans = projectDataManager.d(filename);
             var viewFab = projectDataManager.h(filename);
@@ -1159,7 +1159,7 @@ public class DesignActivity extends BaseAppCompatActivity implements View.OnClic
                     if (isMissingDirectory) {
                         dialog.setTitle("Missing directory detected");
                         dialog.setMessage("A directory important for building is missing. " +
-                                "Sketchware Pro can try creating " + e.getMissingFile().getAbsolutePath() +
+                                "Sketchware GG can try creating " + e.getMissingFile().getAbsolutePath() +
                                 " if you'd like to.");
                         dialog.setNeutralButton("Create", (v, which) -> {
                             v.dismiss();

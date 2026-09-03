@@ -8,13 +8,13 @@ import pro.sketchware.util.library.BuiltInLibraryUtils;
 /**
  * An object representing a built-in library, e.g. the MDC library (nicknamed material-1.0.0)
  */
-public class Jp {
+public class BuiltInLibraryBean {
     private final String name;
     private final String packageName;
     private final boolean hasResources;
     private final boolean hasAssets;
 
-    public Jp(String libraryName) {
+    public BuiltInLibraryBean(String libraryName) {
         name = libraryName;
         hasResources = BuiltInLibraryUtils.hasResources(libraryName);
         hasAssets = libraryName.equals(BuiltInLibraries.CODEVIEW);
@@ -29,7 +29,7 @@ public class Jp {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Jp jp = (Jp) o;
+        BuiltInLibraryBean jp = (BuiltInLibraryBean) o;
         return name.equals(jp.name);
     }
 

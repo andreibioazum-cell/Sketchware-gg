@@ -29,7 +29,7 @@ import mod.hilal.saif.events.LogicHandler;
 import mod.pranav.viewbinding.ViewBindingBuilder;
 import pro.sketchware.control.logic.PermissionManager;
 
-public class Jx {
+public class ActivityCodeGenerator {
 
     public static final String EOL = "\r\n";
     public static final Pattern WIDGET_NAME_PATTERN = Pattern.compile("\\w*\\..*\\.");
@@ -39,7 +39,7 @@ public class Jx {
     private final ProjectFileBean projectFileBean;
     private final eC projectDataManager;
     private final jq buildConfig;
-    private final Ox ox;
+    private final LayoutXmlGenerator ox;
     private final Boolean isViewBindingEnabled;
     /**
      * Fields with static initializer that added Components need,
@@ -81,12 +81,12 @@ public class Jx {
     private final ArrayList<String> filePickerRequestCodes = new ArrayList<>();
 
     private final ArrayList<HashMap<String, Object>> extraBlocks;
-    private Hx eventManager;
+    private EventCollector eventManager;
     private ArrayList<String> imports = new ArrayList<>();
     private String onCreateEventCode = "";
     private Material3LibraryManager materialLibraryManager;
 
-    public Jx(jq jqVar, ProjectFileBean projectFileBean, eC eCVar) {
+    public ActivityCodeGenerator(jq jqVar, ProjectFileBean projectFileBean, eC eCVar) {
         packageName = jqVar.packageName;
         this.projectFileBean = projectFileBean;
         projectDataManager = eCVar;
@@ -94,7 +94,7 @@ public class Jx {
         mll = new ManageLocalLibrary(eCVar.a);
         settings = new ProjectSettings(eCVar.a);
         permissionManager = new PermissionManager(eCVar.a, projectFileBean.getJavaName());
-        ox = new Ox(buildConfig, projectFileBean);
+        ox = new LayoutXmlGenerator(buildConfig, projectFileBean);
         extraBlocks = getExtraBlockData();
         isViewBindingEnabled = settings.getValue(ProjectSettings.SETTING_ENABLE_VIEWBINDING, BuildSettings.SETTING_GENERIC_VALUE_FALSE)
                 .equals(BuildSettings.SETTING_GENERIC_VALUE_TRUE);
@@ -103,12 +103,12 @@ public class Jx {
 
     public String activityResult() {
         ArrayList<BlockBean> blocks = jC.a(projectDataManager.a).a(projectFileBean.getJavaName(), "onActivityResult_onActivityResult");
-        return Lx.j(new Fx(projectFileBean.getActivityName(), buildConfig, blocks, isViewBindingEnabled).a(), false);
+        return ComponentCodeGenerator.j(new BlockExpressionParser(projectFileBean.getActivityName(), buildConfig, blocks, isViewBindingEnabled).a(), false);
     }
 
     public String initializeLogic() {
         ArrayList<BlockBean> blocks = jC.a(projectDataManager.a).a(projectFileBean.getJavaName(), "initializeLogic_initializeLogic");
-        return Lx.j(new Fx(projectFileBean.getActivityName(), buildConfig, blocks, isViewBindingEnabled).a(), false);
+        return ComponentCodeGenerator.j(new BlockExpressionParser(projectFileBean.getActivityName(), buildConfig, blocks, isViewBindingEnabled).a(), false);
     }
 
     private void extraVariables() {
@@ -382,10 +382,10 @@ public class Jx {
             }
             sb.append("MobileAds.initialize(this);");
             sb.append(EOL);
-            if (fieldsWithStaticInitializers.contains(Lx.getComponentFieldCode("InterstitialAd"))) {
+            if (fieldsWithStaticInitializers.contains(ComponentCodeGenerator.getComponentFieldCode("InterstitialAd"))) {
                 sb.append("_ad_unit_id = \"").append(buildConfig.isDebugBuild ? "ca-app-pub-3940256099942544/1033173712" : buildConfig.interstitialAdUnitId).append("\";");
             }
-            if (fieldsWithStaticInitializers.contains(Lx.getComponentFieldCode("RewardedVideoAd"))) {
+            if (fieldsWithStaticInitializers.contains(ComponentCodeGenerator.getComponentFieldCode("RewardedVideoAd"))) {
                 sb.append("_reward_ad_unit_id = \"").append(buildConfig.isDebugBuild ? "ca-app-pub-3940256099942544/5224354917" : buildConfig.rewardAdUnitId).append("\";");
             }
 
@@ -613,19 +613,19 @@ public class Jx {
             code = code.replaceAll(projectFileBean.getActivityName() + "\\.this", "getContext()");
         }
 
-        return CommandBlock.CB(Lx.j(code, false));
+        return CommandBlock.CB(ComponentCodeGenerator.j(code, false));
     }
 
     private String getListDeclarationAndAddImports(int listType, String listName) {
         String typeName = mq.b(listType);
         addImports(mq.getImportsByTypeName(projectDataManager.a, typeName, null));
-        return Lx.a(typeName, listName, Lx.AccessModifier.PRIVATE);
+        return ComponentCodeGenerator.a(typeName, listName, ComponentCodeGenerator.AccessModifier.PRIVATE);
     }
 
     private String getComponentDeclarationAndAddImports(ComponentBean componentBean) {
         String typeName = mq.a(componentBean.type);
         addImports(mq.getImportsByTypeName(projectDataManager.a, typeName, null));
-        return Lx.a(typeName, componentBean.componentId, Lx.AccessModifier.PRIVATE, componentBean.param1, componentBean.param2, componentBean.param3);
+        return ComponentCodeGenerator.a(typeName, componentBean.componentId, ComponentCodeGenerator.AccessModifier.PRIVATE, componentBean.param1, componentBean.param2, componentBean.param3);
     }
 
     private String getDrawerViewDeclarationAndAddImports(ViewBean viewBean) {
@@ -634,7 +634,7 @@ public class Jx {
             viewType = viewBean.getClassInfo().getClassName();
         }
         addImports(mq.getImportsByTypeName(projectDataManager.a, viewType, null));
-        return Lx.a(viewType, "_drawer_" + viewBean.id, Lx.AccessModifier.PRIVATE, isViewBindingEnabled);
+        return ComponentCodeGenerator.a(viewType, "_drawer_" + viewBean.id, ComponentCodeGenerator.AccessModifier.PRIVATE, isViewBindingEnabled);
     }
 
     /**
@@ -643,7 +643,7 @@ public class Jx {
     private String getVariableDeclarationAndAddImports(int variableType, String name) {
         String variableTypeName = mq.c(variableType);
         addImports(mq.getImportsByTypeName(projectDataManager.a, variableTypeName, null));
-        return Lx.a(variableTypeName, name, Lx.AccessModifier.PRIVATE);
+        return ComponentCodeGenerator.a(variableTypeName, name, ComponentCodeGenerator.AccessModifier.PRIVATE);
     }
 
     private String getViewDeclarationAndAddImports(ViewBean viewBean) {
@@ -654,7 +654,7 @@ public class Jx {
         if (requireImports(viewBean)) {
             addImports(mq.getImportsByTypeName(projectDataManager.a, viewType, viewBean.convert));
         }
-        return Lx.a(viewType, viewBean.id, Lx.AccessModifier.PRIVATE, isViewBindingEnabled);
+        return ComponentCodeGenerator.a(viewType, viewBean.id, ComponentCodeGenerator.AccessModifier.PRIVATE, isViewBindingEnabled);
     }
 
     private String getDeprecatedMethodsCode() {
@@ -726,10 +726,10 @@ public class Jx {
     }
 
     /**
-     * @see Lx#getComponentInitializerCode(String, String, String...)
+     * @see ComponentCodeGenerator#getComponentInitializerCode(String, String, String...)
      */
     private String getComponentBeanInitializer(ComponentBean componentBean) {
-        return Lx.getComponentInitializerCode(mq.a(componentBean.type), componentBean.componentId, componentBean.param1, componentBean.param2, componentBean.param3);
+        return ComponentCodeGenerator.getComponentInitializerCode(mq.a(componentBean.type), componentBean.componentId, componentBean.param1, componentBean.param2, componentBean.param3);
     }
 
     private void handleAppCompat() {
@@ -852,7 +852,7 @@ public class Jx {
         addImport("java.util.regex.*");
         addImport("java.text.*");
         addImport("org.json.*");
-        onCreateEventCode = new Fx(projectFileBean.getActivityName(), buildConfig, projectDataManager.a(projectFileBean.getJavaName(), "onCreate_initializeLogic"), isViewBindingEnabled).a();
+        onCreateEventCode = new BlockExpressionParser(projectFileBean.getActivityName(), buildConfig, projectDataManager.a(projectFileBean.getJavaName(), "onCreate_initializeLogic"), isViewBindingEnabled).a();
     }
 
     private String getDrawerViewInitializer(ViewBean viewBean) {
@@ -860,7 +860,7 @@ public class Jx {
         if (replaceAll.isEmpty()) {
             replaceAll = viewBean.getClassInfo().getClassName();
         }
-        return Lx.getDrawerViewInitializer(replaceAll, viewBean.id, "_nav_view");
+        return ComponentCodeGenerator.getDrawerViewInitializer(replaceAll, viewBean.id, "_nav_view");
     }
 
     private void addAdapterCode() {
@@ -868,16 +868,16 @@ public class Jx {
             String xmlName = ProjectFileBean.getXmlName(viewBean.customView);
             projectFileBean.getJavaName();
             String eventName = viewBean.id + "_onBindCustomView";
-            String adapterLogic = new Fx(projectFileBean.getActivityName(), buildConfig, projectDataManager.a(projectFileBean.getJavaName(), eventName), isViewBindingEnabled).a();
+            String adapterLogic = new BlockExpressionParser(projectFileBean.getActivityName(), buildConfig, projectDataManager.a(projectFileBean.getJavaName(), eventName), isViewBindingEnabled).a();
             String adapterCode;
             if (viewBean.type == ViewBeans.VIEW_TYPE_LAYOUT_VIEWPAGER) {
-                adapterCode = Lx.pagerAdapter(ox, viewBean.id, viewBean.customView, projectDataManager.d(xmlName), adapterLogic, isViewBindingEnabled);
+                adapterCode = ComponentCodeGenerator.pagerAdapter(ox, viewBean.id, viewBean.customView, projectDataManager.d(xmlName), adapterLogic, isViewBindingEnabled);
             } else if (viewBean.type == ViewBeans.VIEW_TYPE_WIDGET_RECYCLERVIEW) {
-                adapterCode = Lx.recyclerViewAdapter(ox, viewBean.id, viewBean.customView, projectDataManager.d(xmlName), adapterLogic, isViewBindingEnabled);
+                adapterCode = ComponentCodeGenerator.recyclerViewAdapter(ox, viewBean.id, viewBean.customView, projectDataManager.d(xmlName), adapterLogic, isViewBindingEnabled);
                 addImport("androidx.recyclerview.widget.LinearLayoutManager");
                 addImport("androidx.recyclerview.widget.RecyclerView");
             } else {
-                adapterCode = Lx.getListAdapterCode(ox, viewBean.id, viewBean.customView, projectDataManager.d(xmlName), adapterLogic, isViewBindingEnabled);
+                adapterCode = ComponentCodeGenerator.getListAdapterCode(ox, viewBean.id, viewBean.customView, projectDataManager.d(xmlName), adapterLogic, isViewBindingEnabled);
             }
             adapterClasses.add(adapterCode);
         }
@@ -889,9 +889,9 @@ public class Jx {
             replaceAll = viewBean.getClassInfo().getClassName();
         }
         if (projectFileBean.fileName.contains("_fragment")) {
-            return Lx.getViewInitializer(replaceAll, viewBean.id, true, isViewBindingEnabled);
+            return ComponentCodeGenerator.getViewInitializer(replaceAll, viewBean.id, true, isViewBindingEnabled);
         }
-        return Lx.getViewInitializer(replaceAll, viewBean.id, false, isViewBindingEnabled);
+        return ComponentCodeGenerator.getViewInitializer(replaceAll, viewBean.id, false, isViewBindingEnabled);
     }
 
     private void addMoreBlockCodes() {
@@ -900,7 +900,7 @@ public class Jx {
         for (int index = 0, pairsSize = pairs.size(); index < pairsSize; index++) {
             Pair<String, String> next = pairs.get(index);
             String name = next.first + "_moreBlock";
-            String code = Lx.getMoreBlockCode(next.first, next.second, new Fx(projectFileBean.getActivityName(), buildConfig, projectDataManager.a(javaName, name), isViewBindingEnabled).a());
+            String code = ComponentCodeGenerator.getMoreBlockCode(next.first, next.second, new BlockExpressionParser(projectFileBean.getActivityName(), buildConfig, projectDataManager.a(javaName, name), isViewBindingEnabled).a());
             if (index < (pairsSize - 1)) {
                 moreBlocks.add(code);
             } else {
@@ -911,7 +911,7 @@ public class Jx {
     }
 
     private void initializeEventsCodeGenerator() {
-        eventManager = new Hx(buildConfig, projectFileBean, projectDataManager);
+        eventManager = new EventCollector(buildConfig, projectFileBean, projectDataManager);
         addImports(eventManager.getImports());
     }
 
@@ -1030,7 +1030,7 @@ public class Jx {
                 case ComponentBean.COMPONENT_TYPE_FILE_PICKER:
                 case 31:
                     int incrementedValue = startValue + 1;
-                    filePickerRequestCodes.add(Lx.getRequestCodeConstant(next.componentId, incrementedValue));
+                    filePickerRequestCodes.add(ComponentCodeGenerator.getRequestCodeConstant(next.componentId, incrementedValue));
                     startValue = incrementedValue;
                     break;
             }
@@ -1112,19 +1112,19 @@ public class Jx {
             }
         }
         if (hasTimer) {
-            fieldsWithStaticInitializers.add(Lx.getComponentFieldCode("Timer"));
+            fieldsWithStaticInitializers.add(ComponentCodeGenerator.getComponentFieldCode("Timer"));
         }
         if (hasFirebaseDB) {
-            fieldsWithStaticInitializers.add(Lx.getComponentFieldCode("FirebaseDB"));
+            fieldsWithStaticInitializers.add(ComponentCodeGenerator.getComponentFieldCode("FirebaseDB"));
         }
         if (hasFirebaseStorage) {
-            fieldsWithStaticInitializers.add(Lx.getComponentFieldCode("FirebaseStorage"));
+            fieldsWithStaticInitializers.add(ComponentCodeGenerator.getComponentFieldCode("FirebaseStorage"));
         }
         if (hasInterstitialAd) {
-            fieldsWithStaticInitializers.add(Lx.getComponentFieldCode("InterstitialAd"));
+            fieldsWithStaticInitializers.add(ComponentCodeGenerator.getComponentFieldCode("InterstitialAd"));
         }
         if (hasRewardedVideoAd) {
-            fieldsWithStaticInitializers.add(Lx.getComponentFieldCode("RewardedVideoAd"));
+            fieldsWithStaticInitializers.add(ComponentCodeGenerator.getComponentFieldCode("RewardedVideoAd"));
         }
     }
 

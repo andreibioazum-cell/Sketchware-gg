@@ -5,7 +5,7 @@ import com.besome.sketch.beans.BlockBean;
 import java.util.ArrayList;
 import java.util.Map.Entry;
 
-import a.a.a.Jx;
+import a.a.a.ActivityCodeGenerator;
 import a.a.a.jC;
 import a.a.a.jq;
 
@@ -112,17 +112,17 @@ public class PermissionManager {
                     permissionCode.append(checkPerm.get(i));
                 }
 
-                permissionCode.append(") {" + Jx.EOL + "ActivityCompat.requestPermissions(this, new String[] {");
+                permissionCode.append(") {" + ActivityCodeGenerator.EOL + "ActivityCompat.requestPermissions(this, new String[] {");
 
                 for (int i = 0; i < addPerm.size(); i++) {
                     if (i != 0) permissionCode.append(", ");
                     permissionCode.append(addPerm.get(i));
                 }
 
-                permissionCode.append("}, 1000);" + Jx.EOL +
-                        "} else {" + Jx.EOL +
-                        "initializeLogic();" + Jx.EOL +
-                        "}" + Jx.EOL);
+                permissionCode.append("}, 1000);" + ActivityCodeGenerator.EOL +
+                        "} else {" + ActivityCodeGenerator.EOL +
+                        "initializeLogic();" + ActivityCodeGenerator.EOL +
+                        "}" + ActivityCodeGenerator.EOL);
             }
 
         } else {
@@ -153,36 +153,36 @@ public class PermissionManager {
             removePermission(false, checkPerm, addPerm);
 
             if (!checkPerm.isEmpty() && !addPerm.isEmpty()) {
-                permissionCode.append("if (Build.VERSION.SDK_INT >= 23) {" + Jx.EOL + "if (");
+                permissionCode.append("if (Build.VERSION.SDK_INT >= 23) {" + ActivityCodeGenerator.EOL + "if (");
 
                 for (int i = 0; i < checkPerm.size(); i++) {
-                    if (i != 0) permissionCode.append(Jx.EOL + "||");
+                    if (i != 0) permissionCode.append(ActivityCodeGenerator.EOL + "||");
                     permissionCode.append(checkPerm.get(i));
                 }
 
-                permissionCode.append(") {" + Jx.EOL + "requestPermissions(new String[] {");
+                permissionCode.append(") {" + ActivityCodeGenerator.EOL + "requestPermissions(new String[] {");
 
                 for (int i = 0; i < addPerm.size(); i++) {
                     if (i != 0) permissionCode.append(", ");
                     permissionCode.append(addPerm.get(i));
                 }
 
-                permissionCode.append("}, 1000);" + Jx.EOL +
-                        "} else {" + Jx.EOL +
-                        "initializeLogic();" + Jx.EOL +
-                        "}" + Jx.EOL +
-                        "} else {" + Jx.EOL +
-                        "initializeLogic();" + Jx.EOL +
-                        "}" + Jx.EOL);
+                permissionCode.append("}, 1000);" + ActivityCodeGenerator.EOL +
+                        "} else {" + ActivityCodeGenerator.EOL +
+                        "initializeLogic();" + ActivityCodeGenerator.EOL +
+                        "}" + ActivityCodeGenerator.EOL +
+                        "} else {" + ActivityCodeGenerator.EOL +
+                        "initializeLogic();" + ActivityCodeGenerator.EOL +
+                        "}" + ActivityCodeGenerator.EOL);
             }
         }
 
         hasPermission = !checkPerm.isEmpty() || !addPerm.isEmpty();
 
         if (permissionCode.toString().trim().isEmpty()) {
-            return "initializeLogic();" + Jx.EOL;
+            return "initializeLogic();" + ActivityCodeGenerator.EOL;
         } else {
-            return Jx.EOL + permissionCode;
+            return ActivityCodeGenerator.EOL + permissionCode;
         }
     }
 }

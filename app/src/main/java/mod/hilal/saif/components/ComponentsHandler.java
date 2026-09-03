@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import a.a.a.Lx;
+import a.a.a.ComponentCodeGenerator;
 import mod.hey.studios.util.Helper;
 import mod.jbk.util.OldResourceIdMapper;
 import pro.sketchware.R;
@@ -488,7 +488,7 @@ public class ComponentsHandler {
     }
 
     /**
-     * Used at {@link Lx#a(String, String, Lx.AccessModifier, String...)}
+     * Used at {@link ComponentCodeGenerator#a(String, String, ComponentCodeGenerator.AccessModifier, String...)}
      * to get Custom Components' fields.
      *
      * @param name    The Custom Component's {@code typeName}

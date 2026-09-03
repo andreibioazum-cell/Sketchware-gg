@@ -30,7 +30,7 @@ import pro.sketchware.utility.FileResConfig;
 import pro.sketchware.utility.FileUtil;
 import pro.sketchware.xml.XmlBuilder;
 
-public class Ix {
+public class ManifestGenerator {
     private final BuiltInLibraryManager builtInLibraryManager;
     public XmlBuilder a = new XmlBuilder("manifest");
     public ArrayList<ProjectFileBean> b;
@@ -43,7 +43,7 @@ public class Ix {
     private String packageName;
     private final Set<String> addedPermissions = new HashSet<>();
 
-    public Ix(jq jq, ArrayList<ProjectFileBean> projectFileBeans, BuiltInLibraryManager builtInLibraryManager) {
+    public ManifestGenerator(jq jq, ArrayList<ProjectFileBean> projectFileBeans, BuiltInLibraryManager builtInLibraryManager) {
         c = jq;
         b = projectFileBeans;
         this.builtInLibraryManager = builtInLibraryManager;
@@ -382,7 +382,7 @@ public class Ix {
         application.addChildNode(diagnosticsReceiver);
     }
 
-    public void setYq(yq yqVar) {
+    public void setYq(ProjectPaths yqVar) {
         settings = new ProjectSettings(yqVar.sc_id);
         targetsSdkVersion31OrHigher = Integer.parseInt(settings.getValue(ProjectSettings.SETTING_TARGET_SDK_VERSION, String.valueOf(VAR_DEFAULT_TARGET_SDK_VERSION))) >= 31;
         packageName = yqVar.packageName;

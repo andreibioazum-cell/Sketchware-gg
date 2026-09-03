@@ -14,9 +14,9 @@ import com.besome.sketch.lib.base.BaseAppCompatActivity;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.textfield.TextInputLayout;
 
-import a.a.a.RB;
+import a.a.a.CertificateNameValidator;
 import a.a.a.SB;
-import a.a.a.VB;
+import a.a.a.IdentifierValidator;
 import a.a.a.bB;
 import a.a.a.iI;
 import a.a.a.mB;
@@ -26,12 +26,12 @@ import pro.sketchware.R;
 
 public class NewKeyStoreActivity extends BaseAppCompatActivity implements OnClickListener {
     private final int validityInYears = 25;
-    private RB organizationValidator;
-    private RB localityValidator;
-    private RB stateValidator;
-    private RB countryValidator;
-    private RB commonNameValidator;
-    private RB organizationalUnitValidator;
+    private CertificateNameValidator organizationValidator;
+    private CertificateNameValidator localityValidator;
+    private CertificateNameValidator stateValidator;
+    private CertificateNameValidator countryValidator;
+    private CertificateNameValidator commonNameValidator;
+    private CertificateNameValidator organizationalUnitValidator;
     private iI E;
     private EditText alias;
     private EditText password;
@@ -42,7 +42,7 @@ public class NewKeyStoreActivity extends BaseAppCompatActivity implements OnClic
     private EditText locality;
     private EditText state;
     private EditText country;
-    private VB aliasValidator;
+    private IdentifierValidator aliasValidator;
     private SB passwordValidator, passwordConfirmValidator;
 
     private void showDoneDialog(boolean success, String password) {
@@ -179,15 +179,15 @@ public class NewKeyStoreActivity extends BaseAppCompatActivity implements OnClic
         TextInputLayout tilCountry = findViewById(R.id.ti_dn_c);
 
 
-        aliasValidator = new VB(getApplicationContext(), tilAlias);
+        aliasValidator = new IdentifierValidator(getApplicationContext(), tilAlias);
         passwordValidator = new SB(getApplicationContext(), tilPassword, 4, 32);
         passwordConfirmValidator = new SB(getApplicationContext(), tilPasswordConfirm, 4, 32);
-        commonNameValidator = new RB(getApplicationContext(), tilCommonName);
-        organizationalUnitValidator = new RB(getApplicationContext(), tilOrganizationalUnit);
-        organizationValidator = new RB(getApplicationContext(), tilOrganization);
-        localityValidator = new RB(getApplicationContext(), tilLocality);
-        stateValidator = new RB(getApplicationContext(), tilState);
-        countryValidator = new RB(getApplicationContext(), tilCountry);
+        commonNameValidator = new CertificateNameValidator(getApplicationContext(), tilCommonName);
+        organizationalUnitValidator = new CertificateNameValidator(getApplicationContext(), tilOrganizationalUnit);
+        organizationValidator = new CertificateNameValidator(getApplicationContext(), tilOrganization);
+        localityValidator = new CertificateNameValidator(getApplicationContext(), tilLocality);
+        stateValidator = new CertificateNameValidator(getApplicationContext(), tilState);
+        countryValidator = new CertificateNameValidator(getApplicationContext(), tilCountry);
 
 
         alias.setPrivateImeOptions("defaultInputmode=english;");

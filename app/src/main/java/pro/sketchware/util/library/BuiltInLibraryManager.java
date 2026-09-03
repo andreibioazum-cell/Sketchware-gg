@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-import a.a.a.Jp;
+import a.a.a.BuiltInLibraryBean;
 import a.a.a.ProjectBuilder;
 import mod.jbk.build.BuiltInLibraries;
 import mod.jbk.editor.manage.library.ExcludeBuiltInLibrariesActivity;
@@ -19,7 +19,7 @@ import mod.jbk.editor.manage.library.ExcludeBuiltInLibrariesActivity;
 
 public class BuiltInLibraryManager {
 
-    private final ArrayList<Jp> libraries = new ArrayList<>();
+    private final ArrayList<BuiltInLibraryBean> libraries = new ArrayList<>();
     private final List<BuiltInLibraries.BuiltInLibrary> excludedLibraries;
     private final Set<String> processedLibraries = new HashSet<>();
 
@@ -49,7 +49,7 @@ public class BuiltInLibraryManager {
         //noinspection SimplifyOptionalCallChains because #isEmpty() isn't available on Android.
         if (!library.isPresent() || !excludedLibraries.contains(library.get())) {
             Log.d(ProjectBuilder.TAG, "Added built-in library \"" + libraryName + "\" to project's dependencies");
-            libraries.add(new Jp(libraryName));
+            libraries.add(new BuiltInLibraryBean(libraryName));
         } else {
             Log.v(ProjectBuilder.TAG, "Didn't add built-in library \"" + libraryName + "\" to project's dependencies as it's excluded");
             Log.v(ProjectBuilder.TAG, "Adding its dependencies though");
@@ -69,13 +69,13 @@ public class BuiltInLibraryManager {
         if (!library.isPresent()) {
             return false;
         }
-        return libraries.contains(new Jp(library.get().getName()));
+        return libraries.contains(new BuiltInLibraryBean(library.get().getName()));
     }
 
     /**
      * @return {@link BuiltInLibraryManager#libraries}
      */
-    public ArrayList<Jp> getLibraries() {
+    public ArrayList<BuiltInLibraryBean> getLibraries() {
         return libraries;
     }
 }

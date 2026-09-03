@@ -87,19 +87,19 @@ import java.util.concurrent.atomic.AtomicReference;
 
 import a.a.a.DB;
 import a.a.a.FB;
-import a.a.a.Fx;
+import a.a.a.BlockExpressionParser;
 import a.a.a.GB;
 import a.a.a.MA;
 import a.a.a.Mp;
 import a.a.a.NB;
-import a.a.a.Ox;
+import a.a.a.LayoutXmlGenerator;
 import a.a.a.Pp;
 import a.a.a.Rs;
 import a.a.a.Ss;
 import a.a.a.Ts;
-import a.a.a.Us;
+import a.a.a.CollectionBlockItem;
 import a.a.a.Vs;
-import a.a.a.ZB;
+import a.a.a.VariableNameValidator;
 import a.a.a.bC;
 import a.a.a.eC;
 import a.a.a.jC;
@@ -110,7 +110,7 @@ import a.a.a.sq;
 import a.a.a.uq;
 import a.a.a.wB;
 import a.a.a.xB;
-import a.a.a.yq;
+import a.a.a.ProjectPaths;
 import dev.aldi.sayuti.block.ExtraPaletteBlock;
 import mod.bobur.VectorDrawableLoader;
 import mod.hey.studios.editor.view.IdGenerator;
@@ -320,7 +320,7 @@ public class LogicEditorActivity extends BaseAppCompatActivity implements View.O
         View a2 = wB.a(this, R.layout.logic_popup_add_list);
         RadioGroup radioGroup = a2.findViewById(R.id.rg_type);
         TextInputEditText editText = a2.findViewById(R.id.ed_input);
-        ZB zb = new ZB(this, a2.findViewById(R.id.ti_input), uq.b, uq.a(), jC.a(scId).a(M));
+        VariableNameValidator zb = new VariableNameValidator(this, a2.findViewById(R.id.ti_input), uq.b, uq.a(), jC.a(scId).a(M));
         dialog.setView(a2);
         dialog.setPositiveButton(R.string.common_word_add, (v, which) -> {
             if (zb.b()) {
@@ -349,7 +349,7 @@ public class LogicEditorActivity extends BaseAppCompatActivity implements View.O
         View customView = wB.a(this, R.layout.logic_popup_add_variable);
         RadioGroup radioGroup = customView.findViewById(R.id.rg_type);
         TextInputEditText editText = customView.findViewById(R.id.ed_input);
-        ZB nameValidator = new ZB(this, customView.findViewById(R.id.ti_input), uq.b, uq.a(), jC.a(scId).a(M));
+        VariableNameValidator nameValidator = new VariableNameValidator(this, customView.findViewById(R.id.ti_input), uq.b, uq.a(), jC.a(scId).a(M));
         dialog.setView(customView);
         dialog.setPositiveButton(R.string.common_word_add, (v, which) -> {
             int variableType = 1;
@@ -1548,7 +1548,7 @@ public class LogicEditorActivity extends BaseAppCompatActivity implements View.O
             String convert = viewBean.convert;
             String typeName = convert.isEmpty() ? ViewBean.getViewTypeName(viewBean.type) : IdGenerator.getLastPath(convert);
             if (!convert.equals("include")) {
-                Set<String> toNotAdd = new Ox(new jq(), M).readAttributesToReplace(viewBean);
+                Set<String> toNotAdd = new LayoutXmlGenerator(new jq(), M).readAttributesToReplace(viewBean);
                 if (!toNotAdd.contains("android:id")) {
                     String classInfo = ss.getClassInfo().getClassName();
                     if ((classInfo.equals("CheckBox") && viewBean.getClassInfo().a("CompoundButton")) || viewBean.getClassInfo().a(classInfo)) {
@@ -2220,8 +2220,8 @@ public class LogicEditorActivity extends BaseAppCompatActivity implements View.O
                 c(rs7);
             } else if (logicTopMenu.isDetailActive) {
                 c(false);
-                if (v instanceof Us) {
-                    o(((Us) v).T);
+                if (v instanceof CollectionBlockItem) {
+                    o(((CollectionBlockItem) v).T);
                 }
             } else if (logicTopMenu.isCopyActive) {
                 a(false);
@@ -2307,7 +2307,7 @@ public class LogicEditorActivity extends BaseAppCompatActivity implements View.O
                 } else if (rs13.getBlockType() == 2) {
                     int addTargetId2 = o.getAddTargetId();
                     BlockBean clone5 = addTargetId2 >= 0 ? o.a(addTargetId2).getBean().clone() : null;
-                    ArrayList<BlockBean> data = ((Us) v).getData();
+                    ArrayList<BlockBean> data = ((CollectionBlockItem) v).getData();
                     ArrayList<BlockBean> a5 = a(data, this.v[0], this.v[1], true);
                     if (!a5.isEmpty()) {
                         Rs a6 = o.a(a5.get(0).id);
@@ -2418,7 +2418,7 @@ public class LogicEditorActivity extends BaseAppCompatActivity implements View.O
                 f(false);
                 h(true);
                 dummy.a((Rs) currentTouchedView);
-                o.a((Rs) currentTouchedView, ((Us) currentTouchedView).getData());
+                o.a((Rs) currentTouchedView, ((CollectionBlockItem) currentTouchedView).getData());
             } else {
                 dummy.a((Rs) currentTouchedView);
                 o.a((Rs) currentTouchedView);
@@ -2443,12 +2443,12 @@ public class LogicEditorActivity extends BaseAppCompatActivity implements View.O
     }
 
     public void showSourceCode() {
-        yq yq = new yq(this, scId);
-        yq.a(jC.c(scId), jC.b(scId), jC.a(scId));
+        ProjectPaths paths = new ProjectPaths(this, scId);
+        paths.a(jC.c(scId), jC.b(scId), jC.a(scId));
 
         boolean isFragment = M.fileName.contains("_fragment");
 
-        String code = new Fx(M.getActivityName(), yq.N, o.getBlocks(), isViewBindingEnabled).a();
+        String code = new BlockExpressionParser(M.getActivityName(), paths.N, o.getBlocks(), isViewBindingEnabled).a();
         code = code.replaceAll("\\$className", M.getActivityName())
                 .replaceAll("\\$context", isFragment ? "getContext()" : M.getActivityName() + ".this");
 

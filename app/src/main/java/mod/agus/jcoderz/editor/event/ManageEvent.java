@@ -3,7 +3,7 @@ package mod.agus.jcoderz.editor.event;
 import java.util.ArrayList;
 
 import a.a.a.Gx;
-import a.a.a.Lx;
+import a.a.a.ComponentCodeGenerator;
 import mod.hilal.saif.events.EventsHandler;
 import pro.sketchware.R;
 import pro.sketchware.blocks.generator.components.analyzers.BlockReturnAnalyzer;
@@ -647,7 +647,7 @@ public class ManageEvent {
     }
 
     /**
-     * @return Code of extra listeners, used in {@link a.a.a.Lx#getListenerCode(String, String, String)}
+     * @return Code of extra listeners, used in {@link a.a.a.ComponentCodeGenerator#getListenerCode(String, String, String)}
      */
     public static String g(String listenerName, String targetId, String listenerLogic) {
         return switch (listenerName) {
@@ -684,7 +684,7 @@ public class ManageEvent {
                             listenerLogic + "\r\n" +
                             "};";
             case "FragmentStatePagerAdapter" -> {
-                String className = Lx.a(targetId + "Fragment", false);
+                String className = ComponentCodeGenerator.a(targetId + "Fragment", false);
                 yield "public class " + className + " extends FragmentStatePagerAdapter {\r\n" +
                         "// This class is deprecated, you should migrate to ViewPager2:\r\n" +
                         "// https://developer.android.com/reference/androidx/viewpager2/widget/ViewPager2\r\n" +

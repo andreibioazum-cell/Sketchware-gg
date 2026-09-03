@@ -32,12 +32,12 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.concurrent.Executors;
 
-import a.a.a.Jx;
+import a.a.a.ActivityCodeGenerator;
 import a.a.a.hC;
 import a.a.a.jC;
 import a.a.a.mB;
 import a.a.a.wq;
-import a.a.a.yq;
+import a.a.a.ProjectPaths;
 import io.github.rosemoe.sora.widget.CodeEditor;
 import io.github.rosemoe.sora.widget.component.Magnifier;
 import mod.hey.studios.project.ProjectSettings;
@@ -71,16 +71,16 @@ public class ManageXMLCommandActivity extends BaseAppCompatActivity {
         if (FileUtil.isExistFile(path)) {
             return;
         }
-        var yq = new yq(context, sc_id);
+        var ProjectPaths = new ProjectPaths(context, sc_id);
         var projectLibraryManager = jC.c(sc_id);
         var projectFileManager = jC.b(sc_id);
         var projectDataManager = jC.a(sc_id);
-        yq.a(projectLibraryManager, projectFileManager, projectDataManager);
+        ProjectPaths.a(projectLibraryManager, projectFileManager, projectDataManager);
         CommandBlock.x();
         ArrayList<ProjectFileBean> files = new ArrayList<>(projectFileManager.b());
         files.addAll(new ArrayList<>(projectFileManager.c()));
         for (ProjectFileBean file : files) {
-            CommandBlock.CBForXml(new Jx(yq.N, file, projectDataManager).generateCode(false, sc_id));
+            CommandBlock.CBForXml(new ActivityCodeGenerator(ProjectPaths.N, file, projectDataManager).generateCode(false, sc_id));
         }
         String commandPath = FileUtil.getExternalStorageDir().concat("/.sketchware/temp/commands");
         if (FileUtil.isExistFile(commandPath)) {
@@ -321,7 +321,7 @@ public class ManageXMLCommandActivity extends BaseAppCompatActivity {
                 .execute(
                         () -> {
                             String source =
-                                    new yq(getApplicationContext(), sc_id)
+                                    new ProjectPaths(getApplicationContext(), sc_id)
                                             .getFileSrc(
                                                     filename,
                                                     jC.b(sc_id),

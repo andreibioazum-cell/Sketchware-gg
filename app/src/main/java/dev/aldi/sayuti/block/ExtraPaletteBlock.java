@@ -17,7 +17,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Set;
 
-import a.a.a.Ox;
+import a.a.a.LayoutXmlGenerator;
 import a.a.a.jC;
 import a.a.a.jq;
 import a.a.a.kq;
@@ -293,7 +293,7 @@ public class ExtraPaletteBlock {
         if (views != null) {
             for (int i = 0, viewsSize = views.size(); i < viewsSize; i++) {
                 ViewBean view = views.get(i);
-                Set<String> toNotAdd = new Ox(new jq(), projectFile).readAttributesToReplace(view);
+                Set<String> toNotAdd = new LayoutXmlGenerator(new jq(), projectFile).readAttributesToReplace(view);
 
                 if (i == 0) {
                     logicEditor.a("Views", getTitleBgColor());

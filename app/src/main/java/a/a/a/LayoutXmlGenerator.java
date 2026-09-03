@@ -38,7 +38,7 @@ import pro.sketchware.utility.InjectAttributeHandler;
 import pro.sketchware.xml.XmlBuilder;
 
 @SuppressLint("RtlHardcoded")
-public class Ox {
+public class LayoutXmlGenerator {
 
     private final jq buildConfig;
     private final InjectRootLayoutManager rootManager;
@@ -50,7 +50,7 @@ public class Ox {
     private XmlBuilder collapsingToolbarLayout = null;
     private boolean excludeAppCompat;
 
-    public Ox(jq jq, ProjectFileBean projectFileBean) {
+    public LayoutXmlGenerator(jq jq, ProjectFileBean projectFileBean) {
         buildConfig = jq;
         projectFile = projectFileBean;
         rootManager = new InjectRootLayoutManager(jq.sc_id);
@@ -1016,7 +1016,7 @@ public class Ox {
                 eventType = parser.next();
             }
         } catch (XmlPullParserException | IOException | RuntimeException e) {
-            LogUtil.e("a.a.a.Ox", "Failed to parse inject property of View " + viewBean.id, e);
+            LogUtil.e("a.a.a.LayoutXmlGenerator", "Failed to parse inject property of View " + viewBean.id, e);
         }
 
         return toReplace;

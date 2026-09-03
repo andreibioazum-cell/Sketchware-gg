@@ -23,7 +23,7 @@ import a.a.a.Gx;
 import a.a.a.Np;
 import a.a.a.Op;
 import a.a.a.Qp;
-import a.a.a.ZB;
+import a.a.a.VariableNameValidator;
 import a.a.a.bB;
 import a.a.a.eC;
 import a.a.a.jC;
@@ -204,7 +204,7 @@ public class MoreblockImporter {
             moreBlockNamesWithoutReturnTypes.add(ReturnMoreblockManager.getMbName(moreBlockName));
         }
 
-        ZB validator = new ZB(activity, customView.findViewById(R.id.ti_input), uq.b, uq.a(), new ArrayList<>(moreBlockNamesWithoutReturnTypes));
+        VariableNameValidator validator = new VariableNameValidator(activity, customView.findViewById(R.id.ti_input), uq.b, uq.a(), new ArrayList<>(moreBlockNamesWithoutReturnTypes));
         dialog.setView(customView);
         dialog.setPositiveButton(R.string.common_word_save, (v, which) -> {
             if (validator.b()) {

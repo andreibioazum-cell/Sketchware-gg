@@ -37,7 +37,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import a.a.a.GB;
 import a.a.a.MA;
-import a.a.a.VB;
+import a.a.a.IdentifierValidator;
 import a.a.a.lC;
 import a.a.a.mB;
 import a.a.a.nB;
@@ -66,7 +66,7 @@ public class MyProjectSettingActivity extends BaseAppCompatActivity implements V
     private final int[] projectThemeColors = new int[themeColorKeys.length];
     public MyprojectSettingBinding binding;
     private PackageNameValidator projectPackageNameValidator;
-    private VB projectNameValidator;
+    private IdentifierValidator projectNameValidator;
     private AppNameValidator projectAppNameValidator;
     private boolean projectHasCustomIcon = false;
     private boolean updatingExistingProject = false;
@@ -120,7 +120,7 @@ public class MyProjectSettingActivity extends BaseAppCompatActivity implements V
 
         projectAppNameValidator = new AppNameValidator(getApplicationContext(), binding.tilAppName);
         projectPackageNameValidator = new PackageNameValidator(getApplicationContext(), binding.tilPackageName);
-        projectNameValidator = new VB(getApplicationContext(), binding.tilProjectName);
+        projectNameValidator = new IdentifierValidator(getApplicationContext(), binding.tilProjectName);
         binding.tilPackageName.setOnFocusChangeListener((v, hasFocus) -> {
             if (hasFocus) {
                 if (!shownPackageNameChangeWarning && !Helper.getText((EditText) v).trim().contains("com.my.newproject")) {

@@ -23,7 +23,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import a.a.a.GB;
 import a.a.a.SB;
-import a.a.a.ZB;
+import a.a.a.VariableNameValidator;
 import a.a.a.bB;
 import a.a.a.jC;
 import a.a.a.mB;
@@ -42,7 +42,7 @@ public class InnerAddComponentBottomSheet extends BottomSheetDialogFragment {
     private ComponentBean componentBean;
     private ProjectFileBean projectFileBean;
 
-    private ZB componentNameValidator;
+    private VariableNameValidator componentNameValidator;
     private SB componentFileNameValidator;
     private SB componentFirebasePathValidator;
     private SB componentMimeTypeValidator;
@@ -118,7 +118,7 @@ public class InnerAddComponentBottomSheet extends BottomSheetDialogFragment {
 
         binding.tiInputFilePicker.setEndIconOnClickListener(v -> showFilePickerMimeTypeSelectionDialog());
 
-        componentNameValidator = new ZB(getContext(), binding.tiInput, uq.b, uq.a(), jC.a(scId).a(projectFileBean));
+        componentNameValidator = new VariableNameValidator(getContext(), binding.tiInput, uq.b, uq.a(), jC.a(scId).a(projectFileBean));
         componentFileNameValidator = new SB(getContext(), binding.tiInputFilename, 1, 20);
         componentFirebasePathValidator = new SB(getContext(), binding.tiInputFirebasePath, 0, 100);
         componentMimeTypeValidator = new SB(getContext(), binding.tiInputFilePicker, 1, 50);

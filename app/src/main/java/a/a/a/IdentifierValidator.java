@@ -8,11 +8,11 @@ import java.util.regex.Pattern;
 
 import pro.sketchware.R;
 
-public class VB extends MB {
+public class IdentifierValidator extends MB {
 
     private final Pattern PATTERN = Pattern.compile("^[a-zA-Z][a-zA-Z0-9_]*");
 
-    public VB(Context context, TextInputLayout textInputLayout) {
+    public IdentifierValidator(Context context, TextInputLayout textInputLayout) {
         super(context, textInputLayout);
     }
 
