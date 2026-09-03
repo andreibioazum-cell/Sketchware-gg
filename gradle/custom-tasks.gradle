@@ -1,21 +1,25 @@
 /**
  * Creates a mock google-services.json if GOOGLE_SERVICES_JSON environment variable is absent.
+ * The file is written to the module root so that every variant (debug, release, ...) can find it.
  */
 tasks.register('createMockGoogleServices') {
+    def targetFile = file("google-services.json")
+    def legacyDebugFile = file("src/debug/google-services.json")
+    def packageName = android.defaultConfig.applicationId
+    outputs.upToDateWhen { false }
     doLast {
         def secrets = System.getenv("GOOGLE_SERVICES_JSON")
         if (secrets != null && !secrets.trim().isEmpty()) {
-            new File("$projectDir/google-services.json").text = secrets
+            targetFile.text = secrets
             return
         }
-        def rootMockFile = file("google-services.json")
-        if (rootMockFile.exists() && rootMockFile.length() == 0) {
-            rootMockFile.delete()
+        if (legacyDebugFile.exists() && legacyDebugFile.length() == 0) {
+            legacyDebugFile.delete()
         }
-        def mockFile = file("src/debug/google-services.json")
-        if (!mockFile.exists()) {
-            mockFile.parentFile.mkdirs()
-            def mockContent = """{
+        if (targetFile.exists() && targetFile.length() > 0) {
+            return
+        }
+        targetFile.text = """{
   "project_info": {
     "project_number": "123456789000",
     "firebase_url": "https://mock-project-default-rtdb.firebaseio.com",
@@ -27,7 +31,7 @@ tasks.register('createMockGoogleServices') {
       "client_info": {
         "mobilesdk_app_id": "1:123456789000:android:mockappid123456",
         "android_client_info": {
-          "package_name": "${android.defaultConfig.applicationId}"
+          "package_name": "${packageName}"
         }
       },
       "oauth_client": [],
@@ -45,9 +49,11 @@ tasks.register('createMockGoogleServices') {
   ],
   "configuration_version": "1"
 }"""
-            mockFile.text = mockContent
-        }
     }
 }
 
 preBuild.dependsOn createMockGoogleServices
+
+tasks.matching { it.name ==~ /process.*GoogleServices/ }.configureEach {
+    dependsOn createMockGoogleServices
+}
