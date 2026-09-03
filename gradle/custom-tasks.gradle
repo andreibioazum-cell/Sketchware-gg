@@ -2,24 +2,23 @@
  * Creates a mock google-services.json if GOOGLE_SERVICES_JSON environment variable is absent.
  * The file is written to the module root so that every variant (debug, release, ...) can find it.
  */
-tasks.register('createMockGoogleServices') {
-    def targetFile = file("google-services.json")
-    def legacyDebugFile = file("src/debug/google-services.json")
-    def packageName = android.defaultConfig.applicationId
-    outputs.upToDateWhen { false }
-    doLast {
-        def secrets = System.getenv("GOOGLE_SERVICES_JSON")
-        if (secrets != null && !secrets.trim().isEmpty()) {
-            targetFile.text = secrets
-            return
-        }
-        if (legacyDebugFile.exists() && legacyDebugFile.length() == 0) {
-            legacyDebugFile.delete()
-        }
-        if (targetFile.exists() && targetFile.length() > 0) {
-            return
-        }
-        targetFile.text = """{
+def targetGoogleServicesFile = file("google-services.json")
+def legacyDebugGoogleServicesFile = file("src/debug/google-services.json")
+def googleServicesPackageName = android.defaultConfig.applicationId
+
+def writeGoogleServicesJson = {
+    def secrets = System.getenv("GOOGLE_SERVICES_JSON")
+    if (secrets != null && !secrets.trim().isEmpty()) {
+        targetGoogleServicesFile.text = secrets
+        return
+    }
+    if (legacyDebugGoogleServicesFile.exists() && legacyDebugGoogleServicesFile.length() == 0) {
+        legacyDebugGoogleServicesFile.delete()
+    }
+    if (targetGoogleServicesFile.exists() && targetGoogleServicesFile.length() > 0) {
+        return
+    }
+    targetGoogleServicesFile.text = """{
   "project_info": {
     "project_number": "123456789000",
     "firebase_url": "https://mock-project-default-rtdb.firebaseio.com",
@@ -31,7 +30,7 @@ tasks.register('createMockGoogleServices') {
       "client_info": {
         "mobilesdk_app_id": "1:123456789000:android:mockappid123456",
         "android_client_info": {
-          "package_name": "${packageName}"
+          "package_name": "${googleServicesPackageName}"
         }
       },
       "oauth_client": [],
@@ -49,6 +48,14 @@ tasks.register('createMockGoogleServices') {
   ],
   "configuration_version": "1"
 }"""
+}
+
+writeGoogleServicesJson()
+
+tasks.register('createMockGoogleServices') {
+    outputs.upToDateWhen { false }
+    doLast {
+        writeGoogleServicesJson()
     }
 }
 

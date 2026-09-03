@@ -1,6 +1,7 @@
 def secrets = System.getenv("GOOGLE_SERVICES_JSON")
 
 apply plugin: "com.android.application"
+apply plugin: "org.jetbrains.kotlin.android"
 apply plugin: "com.google.gms.google-services"
 apply plugin: "com.google.firebase.crashlytics"
 
@@ -43,6 +44,9 @@ android {
             minifyEnabled = false
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
             signingConfig = signingConfigs.release
+            firebaseCrashlytics {
+                mappingFileUploadEnabled = false
+            }
         }
     }
 
@@ -74,6 +78,12 @@ android {
         exclude group: "org.jetbrains.kotlin", module: "kotlin-scripting-common"
         exclude group: "org.jetbrains.kotlin", module: "kotlin-scripting-jvm"
         exclude group: "org.jetbrains.kotlin", module: "kotlin-script-runtime"
+    }
+}
+
+kotlin {
+    compilerOptions {
+        jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
     }
 }
 
