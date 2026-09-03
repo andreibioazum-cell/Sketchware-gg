@@ -1,6 +1,6 @@
 package mod.pranav.build
 
-import a.a.a.yq
+import a.a.a.ProjectPaths
 import com.android.tools.r8.CompilationMode
 import com.android.tools.r8.OutputMode
 import com.android.tools.r8.R8
@@ -15,17 +15,17 @@ class R8Compiler(
     val libs: Array<String>,
     private val inputs: Array<String>,
     private val minApi: Int,
-    val yq: yq
+    val paths: ProjectPaths
 ) {
 
     fun compile() {
-        val output = Paths.get(yq.binDirectoryPath, "dex")
+        val output = Paths.get(paths.binDirectoryPath, "dex")
         Files.createDirectories(output)
         val command = R8Command.builder()
             .addProgramFiles(inputs.map { Paths.get(it) })
             .addProguardConfiguration(rules, Origin.unknown())
             .addProguardConfigurationFiles(configs.map { Paths.get(it) })
-            .setProguardMapOutputPath(Paths.get(yq.proguardMappingPath))
+            .setProguardMapOutputPath(Paths.get(paths.proguardMappingPath))
             .setMinApiLevel(minApi)
             .addLibraryFiles(libs.map { Paths.get(it) })
             .setOutput(output, OutputMode.DexIndexed)
