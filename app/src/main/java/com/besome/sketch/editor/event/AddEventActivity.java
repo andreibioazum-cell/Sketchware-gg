@@ -33,7 +33,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
 
-import a.a.a.Ox;
+import a.a.a.LayoutXmlGenerator;
 import a.a.a.bB;
 import a.a.a.gB;
 import a.a.a.jC;
@@ -125,7 +125,7 @@ public class AddEventActivity extends BaseAppCompatActivity implements View.OnCl
         ArrayList<ComponentBean> components = jC.a(sc_id).e(projectFile.getJavaName());
         if (views != null) {
             for (ViewBean view : views) {
-                Set<String> toNotAdd = new Ox(new jq(), projectFile).readAttributesToReplace(view);
+                Set<String> toNotAdd = new LayoutXmlGenerator(new jq(), projectFile).readAttributesToReplace(view);
                 for (String viewEvent : oq.getEventsForClass(view.getClassInfo())) {
                     boolean exists;
                     if (viewEvent.equals("onBindCustomView") && (view.customView.isEmpty()
@@ -188,7 +188,7 @@ public class AddEventActivity extends BaseAppCompatActivity implements View.OnCl
             ArrayList<ViewBean> drawerViews = jC.a(sc_id).d(projectFile.getDrawerXmlName());
             if (drawerViews != null) {
                 for (ViewBean drawerView : drawerViews) {
-                    Set<String> toNotAdd = new Ox(new jq(), projectFile).readAttributesToReplace(drawerView);
+                    Set<String> toNotAdd = new LayoutXmlGenerator(new jq(), projectFile).readAttributesToReplace(drawerView);
                     for (String drawerViewEvent : oq.getEventsForClass(drawerView.getClassInfo())) {
                         boolean exists = false;
                         for (var existingEvent : jC.a(sc_id).g(projectFile.getJavaName())) {

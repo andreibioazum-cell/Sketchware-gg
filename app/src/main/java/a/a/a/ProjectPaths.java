@@ -34,7 +34,7 @@ import pro.sketchware.utility.FileUtil;
 import pro.sketchware.xml.XmlBuilder;
 import pro.sketchware.xml.XmlBuilderHelper;
 
-public class yq {
+public class ProjectPaths {
 
     /**
      * Firebase Database storage location RegExp matcher to remove unwanted parts of storage URL
@@ -190,11 +190,11 @@ public class yq {
     public boolean isAndroidStudioExport;
     private ExportType exportingType;
 
-    public yq(Context context, String sc_id) {
+    public ProjectPaths(Context context, String sc_id) {
         this(context, wq.d(sc_id), lC.b(sc_id));
     }
 
-    public yq(Context context, String myscFolderPath, HashMap<String, Object> metadata) {
+    public ProjectPaths(Context context, String myscFolderPath, HashMap<String, Object> metadata) {
         this.context = context;
         this.metadata = metadata;
         N = new jq();
@@ -244,7 +244,7 @@ public class yq {
     }
 
     /**
-     * Deletes the directory {@link yq#resDirectoryPath}/values-v21/.
+     * Deletes the directory {@link ProjectPaths#resDirectoryPath}/values-v21/.
      */
     public void a() {
         File file = new File(resDirectoryPath + File.separator + "values-v21");
@@ -254,8 +254,8 @@ public class yq {
     }
 
     /**
-     * Creates needed build directories {@link yq#binDirectoryPath}, {@link yq#compiledClassesPath}, {@link yq#rJavaDirectoryPath}, {@link yq#javaFilesPath}, {@link yq#resDirectoryPath},
-     * {@link yq#layoutFilesPath}, {@link yq#importedSoundsPath}, {@link yq#assetsPath}, and {@link yq#fontsPath}.
+     * Creates needed build directories {@link ProjectPaths#binDirectoryPath}, {@link ProjectPaths#compiledClassesPath}, {@link ProjectPaths#rJavaDirectoryPath}, {@link ProjectPaths#javaFilesPath}, {@link ProjectPaths#resDirectoryPath},
+     * {@link ProjectPaths#layoutFilesPath}, {@link ProjectPaths#importedSoundsPath}, {@link ProjectPaths#assetsPath}, and {@link ProjectPaths#fontsPath}.
      */
     public void c(Context context) {
         fileUtil.f(binDirectoryPath);
@@ -271,7 +271,7 @@ public class yq {
 
     /**
      * Prepares to compile and creates /Internal storage/.sketchware/mysc/&lt;sc_id&gt;/ directories,
-     * {@link yq#binDirectoryPath}, {@link yq#compiledClassesPath} and {@link yq#rJavaDirectoryPath}.
+     * {@link ProjectPaths#binDirectoryPath}, {@link ProjectPaths#compiledClassesPath} and {@link ProjectPaths#rJavaDirectoryPath}.
      */
     public void e() {
         fileUtil.f(binDirectoryPath);
@@ -280,7 +280,7 @@ public class yq {
     }
 
     /**
-     * Deletes temporary compile cache directories, {@link yq#binDirectoryPath} and {@link yq#rJavaDirectoryPath}. The used method
+     * Deletes temporary compile cache directories, {@link ProjectPaths#binDirectoryPath} and {@link ProjectPaths#rJavaDirectoryPath}. The used method
      * logs all files and folders which get deleted.
      */
     public void f() {
@@ -293,9 +293,9 @@ public class yq {
      */
     public void generateGradleFiles() {
         fileUtil.b(projectMyscPath + File.separator + "app" + File.separator + "build.gradle",
-                Lx.getBuildGradleString(VAR_DEFAULT_TARGET_SDK_VERSION, VAR_DEFAULT_MIN_SDK_VERSION, projectSettings.getValue(ProjectSettings.SETTING_TARGET_SDK_VERSION, String.valueOf(VAR_DEFAULT_TARGET_SDK_VERSION)), N, projectSettings.getValue(ProjectSettings.SETTING_ENABLE_VIEWBINDING, ProjectSettings.SETTING_GENERIC_VALUE_FALSE).equals(ProjectSettings.SETTING_GENERIC_VALUE_TRUE)));
-        fileUtil.b(projectMyscPath + File.separator + "settings.gradle", Lx.a());
-        fileUtil.b(projectMyscPath + File.separator + "build.gradle", Lx.c("8.12.0", "4.4.3"));
+                ComponentCodeGenerator.getBuildGradleString(VAR_DEFAULT_TARGET_SDK_VERSION, VAR_DEFAULT_MIN_SDK_VERSION, projectSettings.getValue(ProjectSettings.SETTING_TARGET_SDK_VERSION, String.valueOf(VAR_DEFAULT_TARGET_SDK_VERSION)), N, projectSettings.getValue(ProjectSettings.SETTING_ENABLE_VIEWBINDING, ProjectSettings.SETTING_GENERIC_VALUE_FALSE).equals(ProjectSettings.SETTING_GENERIC_VALUE_TRUE)));
+        fileUtil.b(projectMyscPath + File.separator + "settings.gradle", ComponentCodeGenerator.a());
+        fileUtil.b(projectMyscPath + File.separator + "build.gradle", ComponentCodeGenerator.c("8.12.0", "4.4.3"));
 
         fileUtil.b(projectMyscPath + File.separator + "gradle.properties", """
                 android.enableR8.fullMode=false
@@ -305,7 +305,7 @@ public class yq {
     }
 
     /**
-     * Extracts a ZIP archive from assets to {@link yq#resDirectoryPath}.
+     * Extracts a ZIP archive from assets to {@link ProjectPaths#resDirectoryPath}.
      */
     public void a(Context context, String str) {
         try {
@@ -316,7 +316,7 @@ public class yq {
     }
 
     /**
-     * Copies a file to the project's app icon path, {@link yq#resDirectoryPath}/drawable-xhdpi/app_icon.png
+     * Copies a file to the project's app icon path, {@link ProjectPaths#resDirectoryPath}/drawable-xhdpi/app_icon.png
      */
     public void a(String iconPath) {
         try {
@@ -327,7 +327,7 @@ public class yq {
     }
 
     /**
-     * Copies a mipMaps folder to the project's app icon path, {@link yq#resDirectoryPath}/mipmap
+     * Copies a mipMaps folder to the project's app icon path, {@link ProjectPaths#resDirectoryPath}/mipmap
      */
 
     public void aa(String iconPath) {
@@ -339,7 +339,7 @@ public class yq {
     }
 
     /**
-     * Creates ic_launcher.xml to the project's app icon path, {@link yq#resDirectoryPath}/mipmap-anydpi-v26
+     * Creates ic_launcher.xml to the project's app icon path, {@link ProjectPaths#resDirectoryPath}/mipmap-anydpi-v26
      */
 
     public void createLauncherIconXml(String content) {
@@ -456,8 +456,8 @@ public class yq {
     /**
      * Writes a project file to its correct location. Java files, for example, get saved to
      * <pre>
-     *     {@link yq#javaFilesPath} + File.separator + {@link yq#packageNameAsFolders}
-     * </pre>, while AndroidManifest.xml gets saved to {@link yq#androidManifestPath}.
+     *     {@link ProjectPaths#javaFilesPath} + File.separator + {@link ProjectPaths#packageNameAsFolders}
+     * </pre>, while AndroidManifest.xml gets saved to {@link ProjectPaths#androidManifestPath}.
      */
     public void a(String fileName, String fileContent) {
         if (fileName.endsWith("java")) {
@@ -760,7 +760,7 @@ public class yq {
         for (ProjectFileBean activity : projectFileManager.b()) {
             if (!javaFiles.contains(new File(javaDir + activity.getJavaName()))) {
                 srcCodeBeans.add(new SrcCodeBean(activity.getJavaName(),
-                        new Jx(N, activity, projectDataManager).generateCode(isAndroidStudioExport, sc_id)));
+                        new ActivityCodeGenerator(N, activity, projectDataManager).generateCode(isAndroidStudioExport, sc_id)));
             }
         }
 
@@ -777,7 +777,7 @@ public class yq {
         ArrayList<ProjectFileBean> regularLayouts = projectFileManager.b();
         for (ProjectFileBean layout : regularLayouts) {
             String xmlName = layout.getXmlName();
-            Ox ox = new Ox(N, layout);
+            LayoutXmlGenerator ox = new LayoutXmlGenerator(N, layout);
             ox.a(eC.a(projectDataManager.d(xmlName)), projectDataManager.h(xmlName));
             var ogFile = new File(layoutDir + xmlName);
             if (!layoutFiles.contains(ogFile)) {
@@ -798,7 +798,7 @@ public class yq {
         ArrayList<ProjectFileBean> customViewFiles = projectFileManager.c();
         for (ProjectFileBean customViewFile : customViewFiles) {
             String xmlName = customViewFile.getXmlName();
-            Ox ox = new Ox(N, customViewFile);
+            LayoutXmlGenerator ox = new LayoutXmlGenerator(N, customViewFile);
             ox.a(eC.a(projectDataManager.d(xmlName)));
             var ogFile = new File(layoutDir + xmlName);
             if (!layoutFiles.contains(ogFile)) {
@@ -816,44 +816,44 @@ public class yq {
             }
         }
 
-        Ix ix = new Ix(N, projectFileManager.b(), builtInLibraryManager);
+        ManifestGenerator ix = new ManifestGenerator(N, projectFileManager.b(), builtInLibraryManager);
         ix.setYq(this);
 
         // Make generated classes viewable
         if (!javaFiles.contains(new File(javaDir + "SketchwareUtil.java"))) {
             srcCodeBeans.add(new SrcCodeBean("SketchwareUtil.java",
-                    Lx.i(packageName, material3LibraryManager.isMaterial3Enabled())));
+                    ComponentCodeGenerator.i(packageName, material3LibraryManager.isMaterial3Enabled())));
         }
 
         if (!javaFiles.contains(new File(javaDir + "FileUtil.java"))) {
             srcCodeBeans.add(new SrcCodeBean("FileUtil.java",
-                    Lx.e(packageName)));
+                    ComponentCodeGenerator.e(packageName)));
         }
 
         if (!javaFiles.contains(new File(javaDir + "RequestNetwork.java")) && N.isHttp3Used) {
             srcCodeBeans.add(new SrcCodeBean("RequestNetwork.java",
-                    Lx.j(Lx.h(packageName), false)));
+                    ComponentCodeGenerator.j(ComponentCodeGenerator.h(packageName), false)));
         }
 
         if (!FileUtil.isExistFile(javaDir + "RequestNetworkController.java") && N.isHttp3Used) {
             srcCodeBeans.add(new SrcCodeBean("RequestNetworkController.java",
-                    Lx.j(Lx.g(packageName), false)));
+                    ComponentCodeGenerator.j(ComponentCodeGenerator.g(packageName), false)));
         }
 
         if (!javaFiles.contains(new File(javaDir + "BluetoothConnect.java")) && N.hasPermission(jq.PERMISSION_BLUETOOTH)) {
             srcCodeBeans.add(new SrcCodeBean("BluetoothConnect.java",
-                    Lx.j(Lx.b(packageName), false)));
+                    ComponentCodeGenerator.j(ComponentCodeGenerator.b(packageName), false)));
         }
 
         if (!javaFiles.contains(new File(javaDir + "BluetoothController.java")) && N.hasPermission(jq.PERMISSION_BLUETOOTH)) {
             srcCodeBeans.add(new SrcCodeBean("BluetoothController.java",
-                    Lx.j(Lx.c(packageName), false)));
+                    ComponentCodeGenerator.j(ComponentCodeGenerator.c(packageName), false)));
         }
 
         if (N.isMapUsed) {
             if (!javaFiles.contains(new File(javaDir + "GoogleMapController.java")) && N.isMapUsed) {
                 srcCodeBeans.add(new SrcCodeBean("GoogleMapController.java",
-                        Lx.j(Lx.f(packageName), false)));
+                        ComponentCodeGenerator.j(ComponentCodeGenerator.f(packageName), false)));
             }
         }
 
@@ -892,7 +892,7 @@ public class yq {
                  Generating every java file is necessary to make command blocks for xml work
                  */
                 for (ProjectFileBean file : files) {
-                    CommandBlock.CBForXml(new Jx(N, file, projectDataManager).generateCode(isAndroidStudioExport, sc_id));
+                    CommandBlock.CBForXml(new ActivityCodeGenerator(N, file, projectDataManager).generateCode(isAndroidStudioExport, sc_id));
                 }
             }
         }
@@ -912,7 +912,7 @@ public class yq {
         if (isManifestFile) {
             ProjectBuilder builder = new ProjectBuilder(SketchApplication.getContext(), this);
             builder.buildBuiltInLibraryInformation();
-            Ix ix = new Ix(N, projectFileManager.b(), builder.getBuiltInLibraryManager());
+            ManifestGenerator ix = new ManifestGenerator(N, projectFileManager.b(), builder.getBuiltInLibraryManager());
             ix.setYq(this);
             return CommandBlock.applyCommands("AndroidManifest.xml", ix.a());
         }
@@ -920,9 +920,9 @@ public class yq {
         for (ProjectFileBean file : files) {
             if (filename.equals(isJavaFile ? file.getJavaName() : file.getXmlName())) {
                 if (isJavaFile) {
-                    return new Jx(N, file, projectDataManager).generateCode(isAndroidStudioExport, sc_id);
+                    return new ActivityCodeGenerator(N, file, projectDataManager).generateCode(isAndroidStudioExport, sc_id);
                 } else if (isXmlFile) {
-                    Ox xmlGenerator = new Ox(N, file);
+                    LayoutXmlGenerator xmlGenerator = new LayoutXmlGenerator(N, file);
                     xmlGenerator.a(eC.a(projectDataManager.d(filename)), projectDataManager.h(filename));
                     return CommandBlock.applyCommands(filename, xmlGenerator.b());
                 }

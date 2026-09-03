@@ -31,7 +31,7 @@ import java.util.regex.Pattern;
 import a.a.a.jC;
 import a.a.a.lC;
 import a.a.a.wq;
-import a.a.a.yq;
+import a.a.a.ProjectPaths;
 import mod.hey.studios.code.SrcCodeEditor;
 import mod.hey.studios.util.Helper;
 import pro.sketchware.R;
@@ -53,7 +53,7 @@ import pro.sketchware.utility.UI;
 public class ResourcesEditorActivity extends BaseAppCompatActivity {
 
     private final String variantFullNameStarts = "values-";
-    public yq yq;
+    public ProjectPaths paths;
     public boolean isComingFromSrcCodeEditor;
     public String sc_id;
     public String variant;
@@ -108,8 +108,8 @@ public class ResourcesEditorActivity extends BaseAppCompatActivity {
     private void initializeManagers() {
         sc_id = getIntent().getStringExtra("sc_id");
 
-        yq = new yq(getApplicationContext(), sc_id);
-        yq.a(jC.c(sc_id), jC.b(sc_id), jC.a(sc_id));
+        paths = new ProjectPaths(getApplicationContext(), sc_id);
+        paths.a(jC.c(sc_id), jC.b(sc_id), jC.a(sc_id));
     }
 
     private void initializeEditors() {
@@ -403,7 +403,7 @@ public class ResourcesEditorActivity extends BaseAppCompatActivity {
 
     private void updateProjectMetadata() {
         if (variant.isEmpty()) {
-            HashMap<String, Object> metadata = yq.metadata;
+            HashMap<String, Object> metadata = paths.metadata;
 
             for (ColorModel color : colorsEditor.colorList) {
                 if (colorsEditor.defaultColors.containsKey(color.getColorName())) {

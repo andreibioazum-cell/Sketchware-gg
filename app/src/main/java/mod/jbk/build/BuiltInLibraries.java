@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-import a.a.a.Jp;
+import a.a.a.BuiltInLibraryBean;
 import a.a.a.KB;
 import a.a.a.ProjectBuilder;
 import a.a.a.oB;
@@ -517,7 +517,7 @@ public class BuiltInLibraries {
      * @throws IllegalArgumentException Thrown if the specified library doesn't have any assets.
      */
     public static File getLibraryAssets(String libraryName) {
-        Jp library = new Jp(libraryName);
+        BuiltInLibraryBean library = new BuiltInLibraryBean(libraryName);
 
         if (library.hasAssets()) {
             return new File(EXTRACTED_BUILT_IN_LIBRARIES_PATH, libraryName + File.separator + "assets");
@@ -534,7 +534,7 @@ public class BuiltInLibraries {
     }
 
     public static File getLibraryResources(String libraryName) {
-        Jp library = new Jp(libraryName);
+        BuiltInLibraryBean library = new BuiltInLibraryBean(libraryName);
 
         if (library.hasResources()) {
             return new File(EXTRACTED_BUILT_IN_LIBRARIES_PATH, libraryName + File.separator + "res");

@@ -22,7 +22,7 @@ import mod.jbk.editor.manage.library.ExcludeBuiltInLibrariesActivity;
 import mod.pranav.viewbinding.ViewBindingBuilder;
 import pro.sketchware.utility.FileUtil;
 
-public class Lx {
+public class ComponentCodeGenerator {
 
     /**
      * @return Content of a <code>settings.gradle</code> file, with indentation
@@ -780,7 +780,7 @@ public class Lx {
     /**
      * @return Code of an adapter for a ListView
      */
-    public static String getListAdapterCode(Ox ox, String widgetName, String itemResourceName, ArrayList<ViewBean> views, String onBindCustomViewLogic, boolean isViewBindingEnabled) {
+    public static String getListAdapterCode(LayoutXmlGenerator ox, String widgetName, String itemResourceName, ArrayList<ViewBean> views, String onBindCustomViewLogic, boolean isViewBindingEnabled) {
         String className = a(widgetName, isViewBindingEnabled);
 
         String initializers = "";
@@ -3235,7 +3235,7 @@ public class Lx {
         }
     }
 
-    public static String pagerAdapter(Ox ox, String pagerName, String
+    public static String pagerAdapter(LayoutXmlGenerator ox, String pagerName, String
                                               pagerItemLayoutName, ArrayList<ViewBean> pagerItemViews, String onBindCustomViewLogic,
                                       boolean isViewBindingEnabled) {
         String adapterName = a(pagerName, isViewBindingEnabled);
@@ -3325,7 +3325,7 @@ public class Lx {
                 "}\r\n";
     }
 
-    public static String recyclerViewAdapter(Ox ox, String recyclerViewName, String
+    public static String recyclerViewAdapter(LayoutXmlGenerator ox, String recyclerViewName, String
                                                      itemLayoutName, ArrayList<ViewBean> itemViews, String onBindCustomViewLogic,
                                              boolean isViewBindingEnabled) {
         String adapterName = a(recyclerViewName, isViewBindingEnabled);

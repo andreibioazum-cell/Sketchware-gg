@@ -52,7 +52,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import a.a.a.Jx;
+import a.a.a.ActivityCodeGenerator;
 import a.a.a.Kw;
 import a.a.a.OB;
 import a.a.a.SB;
@@ -931,7 +931,7 @@ public class PropertyInputItem extends RelativeLayout implements View.OnClickLis
     }
 
     private String getSimpleName(ViewBean bean) {
-        return Jx.WIDGET_NAME_PATTERN.matcher(bean.convert).replaceAll("");
+        return ActivityCodeGenerator.WIDGET_NAME_PATTERN.matcher(bean.convert).replaceAll("");
     }
 
     private void showInjectDialog() {

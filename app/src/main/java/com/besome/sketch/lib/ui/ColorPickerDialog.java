@@ -32,7 +32,7 @@ import a.a.a.bB;
 import a.a.a.jC;
 import a.a.a.sq;
 import a.a.a.wq;
-import a.a.a.yq;
+import a.a.a.ProjectPaths;
 import mod.hey.studios.util.Helper;
 import pro.sketchware.R;
 import pro.sketchware.activities.resourceseditor.components.models.ColorModel;
@@ -65,7 +65,7 @@ public class ColorPickerDialog extends PopupWindow {
     private DB colorPref;
     private boolean hasMaterialColors;
     private Material3LibraryManager material3LibraryManager;
-    private yq yq;
+    private ProjectPaths paths;
     private ColorsEditorManager colorsEditorManager;
 
     public ColorPickerDialog(Activity activity, int var3, boolean isTransparentColor, boolean isNoneColor) {
@@ -78,8 +78,8 @@ public class ColorPickerDialog extends PopupWindow {
         super(activity);
         binding = ColorPickerBinding.inflate(activity.getLayoutInflater());
         sc_id = scId;
-        yq = new yq(activity, sc_id);
-        yq.a(jC.c(sc_id), jC.b(sc_id), jC.a(sc_id), a.a.a.yq.ExportType.SOURCE_CODE_VIEWING);
+        paths = new ProjectPaths(activity, sc_id);
+        paths.a(jC.c(sc_id), jC.b(sc_id), jC.a(sc_id), a.a.a.ProjectPaths.ExportType.SOURCE_CODE_VIEWING);
         material3LibraryManager = new Material3LibraryManager(scId);
         colorsEditorManager = new ColorsEditorManager();
         hasMaterialColors = true;
@@ -566,14 +566,14 @@ public class ColorPickerDialog extends PopupWindow {
     }
 
     private void initializeResColors() {
-        if (sc_id == null || yq == null)
+        if (sc_id == null || paths == null)
             return;
         String fileNightPath = wq.b(sc_id) + "/files/resource/values-night/colors.xml";
 
         ArrayList<ColorModel> colorList = new ArrayList<>();
         ArrayList<ColorModel> colorNightList = new ArrayList<>();
 
-        colorsEditorManager.parseColorsXML(colorList, yq.getXMLColor());
+        colorsEditorManager.parseColorsXML(colorList, paths.getXMLColor());
         colorsEditorManager.parseColorsXML(colorNightList, FileUtil.readFileIfExist(fileNightPath));
 
         HashMap<String, String> nightColorsMap = new HashMap<>();

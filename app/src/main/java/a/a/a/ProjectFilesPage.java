@@ -25,7 +25,7 @@ import java.util.ArrayList;
 import pro.sketchware.R;
 import pro.sketchware.databinding.ManageViewListItemBinding;
 
-public class Fw extends qA {
+public class ProjectFilesPage extends qA {
 
     private static final int REQUEST_CODE_PRESET_ACTIVITY = 276;
     private static final int REQUEST_CODE_ADD_VIEW_ACTIVITY = 265;

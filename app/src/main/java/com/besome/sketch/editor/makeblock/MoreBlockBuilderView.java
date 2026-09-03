@@ -18,7 +18,7 @@ import java.util.Arrays;
 import java.util.regex.Pattern;
 
 import a.a.a.Rs;
-import a.a.a.ZB;
+import a.a.a.VariableNameValidator;
 import a.a.a.bB;
 import a.a.a.mB;
 import a.a.a.uq;
@@ -39,8 +39,8 @@ public class MoreBlockBuilderView extends LinearLayout {
     private boolean customVariableInvalid;
     private Activity activity;
     private VariableItemView addVariable;
-    private ZB variableNameValidator;
-    private ZB labelTextValidator;
+    private VariableNameValidator variableNameValidator;
+    private VariableNameValidator labelTextValidator;
     private MoreblockValidator blockNameValidator;
     private Rs block;
 
@@ -58,8 +58,8 @@ public class MoreBlockBuilderView extends LinearLayout {
         addVariable = new VariableItemView(activity);
         binding.varTypeSpinner.addView(addVariable);
         blockNameValidator = new MoreblockValidator(activity, binding.tiName, uq.b, uq.a(), new ArrayList<>());
-        labelTextValidator = new ZB(activity, binding.tiLabel, uq.b, uq.a(), new ArrayList<>());
-        variableNameValidator = new ZB(activity, binding.tiVariableName, uq.b, uq.a(), new ArrayList<>());
+        labelTextValidator = new VariableNameValidator(activity, binding.tiLabel, uq.b, uq.a(), new ArrayList<>());
+        variableNameValidator = new VariableNameValidator(activity, binding.tiVariableName, uq.b, uq.a(), new ArrayList<>());
         binding.edName.setPrivateImeOptions("defaultInputmode=english;");
         binding.edLabel.setPrivateImeOptions("defaultInputmode=english;");
         binding.edVariableName.setPrivateImeOptions("defaultInputmode=english;");

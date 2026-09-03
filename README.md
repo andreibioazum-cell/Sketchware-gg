@@ -19,13 +19,13 @@ To build the app, you must use Gradle. It's highly recommended to use Android St
 | Class           | Role                                        |
 | --------------- | ------------------------------------------- |
 | `a.a.a.ProjectBuilder`      | Helper for compiling an entire project       |
-| `a.a.a.Ix`      | Responsible for generating AndroidManifest.xml |
-| `a.a.a.Jx`      | Generates source code of activities          |
-| `a.a.a.Lx`      | Generates source code of components, such as listeners, etc. |
-| `a.a.a.Ox`      | Responsible for generating XML files of layouts |
+| `a.a.a.ManifestGenerator`      | Responsible for generating AndroidManifest.xml |
+| `a.a.a.ActivityCodeGenerator`      | Generates source code of activities          |
+| `a.a.a.ComponentCodeGenerator`      | Generates source code of components, such as listeners, etc. |
+| `a.a.a.LayoutXmlGenerator`      | Responsible for generating XML files of layouts |
 | `a.a.a.qq`      | Registry of built-in libraries' dependencies |
 | `a.a.a.tq`      | Responsible for the compiling dialog's quizzes |
-| `a.a.a.yq`      | Organizes Sketchware projects' file paths    |
+| `a.a.a.ProjectPaths`      | Organizes Sketchware projects' file paths    |
 
 > [!TIP]
 > You can also check the `mod` package, which contains the majority of contributors' changes.
